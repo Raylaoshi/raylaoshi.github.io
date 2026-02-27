@@ -35,6 +35,7 @@
 
         /* ── TOPBAR ── */
         .topbar {
+            flex-shrink: 0; /* ← prevents body flex from squishing the topbar */
             position: sticky; top: 0; z-index: 100;
             display: flex; align-items: center; justify-content: space-between;
             padding: 0 clamp(1rem,4vw,2rem);
@@ -43,23 +44,28 @@
             border-bottom: 1px solid var(--line);
             background: rgba(252,251,249,0.95);
             backdrop-filter: blur(12px);
+            overflow: hidden;
         }
         .logo {
             font-family: 'Syne', 'SF Pro Display', 'PingFang SC', 'Microsoft YaHei', sans-serif;
             font-weight: 800; font-size: clamp(.85rem,2vw,1.1rem);
             letter-spacing: -.02em; color: var(--ink); text-decoration: none;
+            line-height: 1;
         }
         .logo span { color: var(--red); }
         .topbar-right { display: flex; align-items: center; gap: 1rem; }
         .topbar-tagline {
             font-size: .75rem; color: var(--mid);
             opacity: 0.6; font-weight: 400; letter-spacing: .04em;
+            line-height: 1;
+            white-space: nowrap;
         }
         .lang-toggle { display: flex; gap: 6px; }
         .lang-btn {
             background: none; border: 1px solid var(--line); border-radius: 6px;
             padding: .3rem .85rem; font-size: .78rem; font-family: inherit;
             cursor: pointer; color: var(--mid); transition: all .18s; font-weight: 500;
+            line-height: 1;
         }
         .lang-btn:hover { border-color: var(--mid); }
         .lang-btn.active { background: var(--ink); color: #fff; border-color: var(--ink); }
@@ -123,7 +129,7 @@
         .btn-ghost:hover { border-color: var(--ink); background: var(--faint); }
 
         /* ── STATS ── */
-        .stats-wrap { border-top: 1px solid var(--line); }
+        .stats-wrap { border-top: 1px solid var(--line); flex-shrink: 0; }
         .stats {
             padding: 2rem clamp(1.5rem,5vw,3rem);
             max-width: 900px; margin: 0 auto; width: 100%;
@@ -143,6 +149,7 @@
 
         /* ── FOOTER ── */
         footer {
+            flex-shrink: 0;
             border-top: 1px solid var(--line);
             padding: 1.5rem clamp(1.5rem,5vw,3rem);
             display: flex; justify-content: space-between;
@@ -234,7 +241,7 @@
     <h1 class="fade-up delay-1" id="hero-h1"></h1>
     <p class="hero-sub fade-up delay-2" id="hero-sub"></p>
     <div class="cta-group fade-up delay-3">
-        <a class="btn-primary" href="./AP Micro Graphs/index.html" id="cta-main">
+        <a class="btn-primary" href="./AP.Econ.Graphs/index.html" id="cta-main">
             <span id="cta-main-text"></span> →
         </a>
         <a class="btn-ghost" href="https://github.com/Raylaoshi/AP.Econ.Graphs" target="_blank" id="cta-gh"></a>
@@ -303,7 +310,7 @@
             tagline:     'by Ray老师',
             eyebrow:     '互动经济学',
             h1:          '让经济学<br><em>活起来。</em>',
-            sub:         '专为 <strong>AP 微观经济学</strong> 打造的互动图表模型——帮助学生在动手操作中真正理解经济逻辑。拖动曲线，看数字随之变化。',
+            sub:         '专为 <strong>AP 经济学</strong> 打造的互动图表模型——帮助学生在动手操作中真正理解经济逻辑。',
             cta:         '探索 AP 微观图表',
             gh:          '在 GitHub 上查看',
             wechatBtn:   '微信',
