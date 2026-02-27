@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Ray · AP Econ Graphs</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500&family=Outfit:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fcfbf9;
+            --ink: #050e3c;
+            --mid: #002455;
+            --faint: #f2f0eb;
+            --line: #e6e4e0;
+            --red: #DC0000;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html, body { height: 100%; }
+
+        body {
+            background: var(--bg);
+            color: var(--ink);
+            font-family: 'Outfit', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            font-weight: 300;
+            -webkit-font-smoothing: antialiased;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ── TOPBAR ── */
+        .topbar {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: env(safe-area-inset-top) clamp(1.5rem,5vw,3rem) 0;
+            height: calc(68px + env(safe-area-inset-top));
+            border-bottom: 1px solid var(--line);
+            background: rgba(252,251,249,.96);
+            backdrop-filter: blur(12px);
+            position: sticky; top: 0; z-index: 50;
+        }
+        .logo {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800; font-size: 1.1rem;
+            letter-spacing: -.02em; color: var(--ink); text-decoration: none;
+        }
+        .logo span { color: var(--red); }
+        .topbar-tagline {
+            font-size: .75rem; color: var(--mid); opacity: 0.6;
+            font-weight: 400; letter-spacing: .04em;
+        }
+
+        /* ── HERO ── */
+        .hero {
+            flex: 1;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: flex-start;
+            padding: clamp(4rem,10vw,8rem) clamp(1.5rem,5vw,3rem);
+            max-width: 900px;
+            margin: 0 auto; width: 100%;
+        }
+
+        .hero-eyebrow {
+            font-size: .7rem; letter-spacing: .2em; text-transform: uppercase;
+            color: var(--red); font-weight: 600; margin-bottom: 1.5rem;
+            display: flex; align-items: center; gap: .6rem;
+        }
+        .hero-eyebrow::before {
+            content: '';
+            display: inline-block; width: 24px; height: 2px;
+            background: var(--red);
+        }
+
+        .hero h1 {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: clamp(3rem, 9vw, 6.5rem);
+            line-height: 1.0;
+            letter-spacing: -.03em;
+            color: var(--ink);
+            margin-bottom: 1.5rem;
+        }
+        .hero h1 em { font-style: normal; color: var(--red); }
+
+        .hero-sub {
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            color: var(--mid); line-height: 1.7;
+            max-width: 560px; margin-bottom: 3rem; font-weight: 300;
+        }
+        .hero-sub strong { color: var(--ink); font-weight: 500; }
+
+        /* ── CTA ── */
+        .cta-group { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
+
+        .cta-btn {
+            display: inline-flex; align-items: center; gap: .6rem;
+            background: var(--ink); color: #fff;
+            font-family: 'Outfit', sans-serif; font-weight: 600;
+            font-size: .9rem; letter-spacing: .01em;
+            padding: .85rem 1.8rem;
+            border-radius: 8px; text-decoration: none;
+            transition: all .2s ease;
+            border: 2px solid var(--ink);
+        }
+        .cta-btn:hover {
+            background: var(--red); border-color: var(--red);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(220,0,0,.2);
+        }
+        .cta-btn .arrow { transition: transform .2s; }
+        .cta-btn:hover .arrow { transform: translateX(4px); }
+
+        .cta-secondary {
+            font-size: .82rem; color: var(--mid);
+            text-decoration: none; font-weight: 500;
+            border-bottom: 1px solid var(--line);
+            padding-bottom: 1px;
+            transition: color .2s, border-color .2s;
+        }
+        .cta-secondary:hover { color: var(--ink); border-color: var(--mid); }
+
+        /* ── STATS ── */
+        .stats-wrap {
+            border-top: 1px solid var(--line);
+        }
+        .stats {
+            padding: 2rem clamp(1.5rem,5vw,3rem);
+            max-width: 900px; margin: 0 auto; width: 100%;
+            display: flex; gap: 2.5rem; flex-wrap: wrap;
+        }
+        .stat-num {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.6rem; font-weight: 800;
+            color: var(--ink); letter-spacing: -.02em; line-height: 1;
+        }
+        .stat-num span { color: var(--red); }
+        .stat-label {
+            font-size: .72rem; letter-spacing: .1em;
+            text-transform: uppercase; color: var(--mid);
+            opacity: 0.6; margin-top: .25rem;
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            border-top: 1px solid var(--line);
+            padding: 1.5rem clamp(1.5rem,5vw,3rem);
+            display: flex; justify-content: space-between;
+            align-items: center; flex-wrap: wrap; gap: .5rem;
+            font-size: .75rem; color: var(--mid); opacity: 0.6;
+        }
+        footer a { color: inherit; text-decoration: none; }
+        footer a:hover { opacity: 1; color: var(--ink); }
+
+        /* ── BG GRID ── */
+        .bg-grid {
+            position: fixed; inset: 0; z-index: -1; pointer-events: none;
+            background-image:
+                linear-gradient(var(--line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--line) 1px, transparent 1px);
+            background-size: 60px 60px;
+            opacity: 0.35;
+        }
+
+        /* ── ANIMATIONS ── */
+        .fade-up {
+            opacity: 0; transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.2s; }
+        .delay-3 { transition-delay: 0.3s; }
+        .delay-4 { transition-delay: 0.4s; }
+        .delay-5 { transition-delay: 0.5s; }
+
+        /* ── LANG TOGGLE ── */
+        .lang-toggle { display: flex; gap: 6px; }
+        .lang-btn {
+            background: none; border: 1px solid var(--line); border-radius: 6px;
+            padding: .3rem .85rem; font-size: .78rem; font-family: inherit;
+            cursor: pointer; color: var(--mid); transition: all .18s; font-weight: 500;
+        }
+        .lang-btn:hover { border-color: var(--mid); }
+        .lang-btn.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+
+        @media (max-width: 600px) {
+            .topbar-tagline { display: none; }
+            .stats { gap: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+
+<header class="topbar">
+    <a class="logo" href="/"><span>AP</span>·Econ·Graphs</a>
+    <div style="display:flex; align-items:center; gap:1rem;">
+        <span class="topbar-tagline" id="topbar-tagline"></span>
+        <div class="lang-toggle">
+            <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+            <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">中文</button>
+        </div>
+    </div>
+</header>
+
+<main class="hero">
+    <div class="hero-eyebrow fade-up" id="hero-eyebrow"></div>
+
+    <h1 class="fade-up delay-1" id="hero-h1"></h1>
+
+    <p class="hero-sub fade-up delay-2" id="hero-sub"></p>
+
+    <div class="cta-group fade-up delay-3">
+        <a class="cta-btn" href="./AP Micro Graphs/index.html" id="cta-main">
+            <span id="cta-main-text"></span>
+            <span class="arrow">→</span>
+        </a>
+        <a class="cta-secondary" href="https://github.com/Raylaoshi/AP.Econ.Graphs" target="_blank" id="cta-gh"></a>
+    </div>
+</main>
+
+<div class="stats-wrap">
+    <div class="stats">
+        <div class="stat-item fade-up delay-3">
+            <div class="stat-num">6<span>+</span></div>
+            <div class="stat-label" id="stat-1"></div>
+        </div>
+        <div class="stat-item fade-up delay-4">
+            <div class="stat-num">EN<span>/</span>中</div>
+            <div class="stat-label" id="stat-2"></div>
+        </div>
+        <div class="stat-item fade-up delay-5">
+            <div class="stat-num">KG<span>JS</span></div>
+            <div class="stat-label" id="stat-3"></div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <span id="footer-left"></span>
+    <span id="footer-right"></span>
+</footer>
+
+<script>
+    const COPY = {
+        en: {
+            tagline:    'by Ray',
+            eyebrow:    'Interactive Economics',
+            h1:         'Make Econ<br><em>Click.</em>',
+            sub:        'Interactive graph models for <strong>AP Microeconomics</strong> — built for students who learn by doing, not just watching. Drag the curves. See the numbers move. Understand the logic.',
+            cta:        'Explore AP Micro Graphs',
+            gh:         'View on GitHub',
+            stat1:      'AP Micro Units',
+            stat2:      'Bilingual',
+            stat3:      'Powered by KineticGraphs',
+            footerL:    '© 2026 Ray · <a href="https://github.com/Raylaoshi/AP.Econ.Graphs" target="_blank">github.com/Raylaoshi</a>',
+            footerR:    'Built with KineticGraphs by Chris Makler',
+        },
+        zh: {
+            tagline:    'by Ray老师',
+            eyebrow:    '互动经济学',
+            h1:         '让经济学<br><em>活起来。</em>',
+            sub:        '专为 <strong>AP 微观经济学</strong> 打造的互动图表模型——帮助学生在动手操作中真正理解经济逻辑。拖动曲线，看数字随之变化。',
+            cta:        '探索 AP 微观图表',
+            gh:         '在 GitHub 上查看',
+            stat1:      'AP 微观单元',
+            stat2:      '中英双语',
+            stat3:      '基于 KineticGraphs',
+            footerL:    '© 2026 Ray老师 · <a href="https://github.com/Raylaoshi/AP.Econ.Graphs" target="_blank">github.com/Raylaoshi</a>',
+            footerR:    '基于 Chris Makler 的 KineticGraphs 构建',
+        }
+    };
+
+    function setLang(lang) {
+        const c = COPY[lang];
+        document.getElementById('topbar-tagline').textContent  = c.tagline;
+        document.getElementById('hero-eyebrow').textContent    = c.eyebrow;
+        document.getElementById('hero-h1').innerHTML           = c.h1;
+        document.getElementById('hero-sub').innerHTML          = c.sub;
+        document.getElementById('cta-main-text').textContent   = c.cta;
+        document.getElementById('cta-gh').textContent          = c.gh;
+        document.getElementById('stat-1').textContent          = c.stat1;
+        document.getElementById('stat-2').textContent          = c.stat2;
+        document.getElementById('stat-3').textContent          = c.stat3;
+        document.getElementById('footer-left').innerHTML       = c.footerL;
+        document.getElementById('footer-right').textContent    = c.footerR;
+        document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+        document.getElementById('btn-zh').classList.toggle('active', lang === 'zh');
+        document.documentElement.lang = lang === 'zh' ? 'zh' : 'en';
+        try { localStorage.setItem('econ-lang', lang); } catch(e) {}
+    }
+
+    // Detect saved or browser language
+    function detectLang() {
+        try {
+            const saved = localStorage.getItem('econ-lang');
+            if (saved === 'en' || saved === 'zh') return saved;
+        } catch(e) {}
+        return (navigator.language || '').toLowerCase().startsWith('zh') ? 'zh' : 'en';
+    }
+
+    // Init
+    setLang(detectLang());
+
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            document.body.style.opacity = '1';
+        });
+    });
+
+    setTimeout(() => {
+        document.querySelectorAll('.fade-up').forEach(el => el.classList.add('visible'));
+    }, 100);
+</script>
+
+</body>
+</html>
