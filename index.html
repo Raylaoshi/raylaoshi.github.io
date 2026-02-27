@@ -179,6 +179,7 @@
         .delay-5 { transition-delay: 0.5s; }
 
         /* ── LANG TOGGLE ── */
+        .topbar-right { display: flex; align-items: center; gap: 1rem; }
         .lang-toggle { display: flex; gap: 6px; }
         .lang-btn {
             background: none; border: 1px solid var(--line); border-radius: 6px;
@@ -187,11 +188,6 @@
         }
         .lang-btn:hover { border-color: var(--mid); }
         .lang-btn.active { background: var(--ink); color: #fff; border-color: var(--ink); }
-
-        @media (max-width: 600px) {
-            .topbar-tagline { display: none; }
-            .stats { gap: 1.5rem; }
-        }
     </style>
 </head>
 <body>
@@ -200,7 +196,7 @@
 
 <header class="topbar">
     <a class="logo" href="/"><span>AP</span>·Econ·Graphs</a>
-    <div style="display:flex; align-items:center; gap:1rem;">
+    <div class="topbar-right">
         <span class="topbar-tagline" id="topbar-tagline"></span>
         <div class="lang-toggle">
             <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
@@ -252,7 +248,7 @@
         en: {
             tagline:    'by Ray',
             eyebrow:    'Interactive Economics',
-            h1:         'Make Econ<br><em>Click.</em>',
+            h1:         'Make Econ<br><em>Click</em>',
             sub:        'Interactive graph models for <strong>AP Microeconomics</strong> — built for students who learn by doing, not just watching. Drag the curves. See the numbers move. Understand the logic.',
             cta:        'Explore AP Micro Graphs',
             gh:         'View on GitHub',
@@ -265,8 +261,8 @@
         zh: {
             tagline:    'by Ray老师',
             eyebrow:    '互动经济学',
-            h1:         '让经济学<br><em>活起来。</em>',
-            sub:        '专为 <strong>AP 微观经济学</strong> 打造的互动图表模型——帮助学生在动手操作中真正理解经济逻辑。拖动曲线，看数字随之变化。',
+            h1:         '让经济学<br><em>活起来</em>',
+            sub:        '专为 <strong>AP 微观经济学</strong> 打造的互动图表模型——帮助学生在动手操作中真正理解经济逻辑。',
             cta:        '探索 AP 微观图表',
             gh:         '在 GitHub 上查看',
             stat1:      'AP 微观单元',
