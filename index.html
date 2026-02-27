@@ -18,7 +18,6 @@
         }
 
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
         html, body { height: 100%; }
 
         body {
@@ -36,24 +35,34 @@
 
         /* ── TOPBAR ── */
         .topbar {
+            position: sticky; top: 0; z-index: 100;
             display: flex; align-items: center; justify-content: space-between;
-            padding: env(safe-area-inset-top) clamp(1.5rem,5vw,3rem) 0;
-            height: calc(68px + env(safe-area-inset-top));
+            padding: 0 clamp(1rem,4vw,2rem);
+            padding-top: env(safe-area-inset-top);
+            height: calc(64px + env(safe-area-inset-top));
             border-bottom: 1px solid var(--line);
-            background: rgba(252,251,249,.96);
+            background: rgba(252,251,249,0.95);
             backdrop-filter: blur(12px);
-            position: sticky; top: 0; z-index: 50;
         }
         .logo {
-            font-family: 'Syne', sans-serif;
-            font-weight: 800; font-size: 1.1rem;
+            font-family: 'Syne', 'SF Pro Display', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            font-weight: 800; font-size: clamp(.85rem,2vw,1.1rem);
             letter-spacing: -.02em; color: var(--ink); text-decoration: none;
         }
         .logo span { color: var(--red); }
+        .topbar-right { display: flex; align-items: center; gap: 1rem; }
         .topbar-tagline {
-            font-size: .75rem; color: var(--mid); opacity: 0.6;
-            font-weight: 400; letter-spacing: .04em;
+            font-size: .75rem; color: var(--mid);
+            opacity: 0.6; font-weight: 400; letter-spacing: .04em;
         }
+        .lang-toggle { display: flex; gap: 6px; }
+        .lang-btn {
+            background: none; border: 1px solid var(--line); border-radius: 6px;
+            padding: .3rem .85rem; font-size: .78rem; font-family: inherit;
+            cursor: pointer; color: var(--mid); transition: all .18s; font-weight: 500;
+        }
+        .lang-btn:hover { border-color: var(--mid); }
+        .lang-btn.active { background: var(--ink); color: #fff; border-color: var(--ink); }
 
         /* ── HERO ── */
         .hero {
@@ -64,7 +73,6 @@
             max-width: 900px;
             margin: 0 auto; width: 100%;
         }
-
         .hero-eyebrow {
             font-size: .7rem; letter-spacing: .2em; text-transform: uppercase;
             color: var(--red); font-weight: 600; margin-bottom: 1.5rem;
@@ -75,18 +83,14 @@
             display: inline-block; width: 24px; height: 2px;
             background: var(--red);
         }
-
         .hero h1 {
             font-family: 'Syne', sans-serif;
             font-weight: 800;
             font-size: clamp(3rem, 9vw, 6.5rem);
-            line-height: 1.0;
-            letter-spacing: -.03em;
-            color: var(--ink);
-            margin-bottom: 1.5rem;
+            line-height: 1.0; letter-spacing: -.03em;
+            color: var(--ink); margin-bottom: 1.5rem;
         }
         .hero h1 em { font-style: normal; color: var(--red); }
-
         .hero-sub {
             font-size: clamp(1rem, 2.5vw, 1.2rem);
             color: var(--mid); line-height: 1.7;
@@ -94,40 +98,32 @@
         }
         .hero-sub strong { color: var(--ink); font-weight: 500; }
 
-        /* ── CTA ── */
+        /* ── BUTTONS ── */
         .cta-group { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
 
-        .cta-btn {
-            display: inline-flex; align-items: center; gap: .6rem;
-            background: var(--ink); color: #fff;
-            font-family: 'Outfit', sans-serif; font-weight: 600;
-            font-size: .9rem; letter-spacing: .01em;
-            padding: .85rem 1.8rem;
-            border-radius: 8px; text-decoration: none;
-            transition: all .2s ease;
-            border: 2px solid var(--ink);
+        .btn-primary {
+            display: inline-flex; align-items: center; justify-content: center;
+            background: var(--ink); color: #fff; text-decoration: none;
+            font-size: .95rem; font-weight: 500;
+            padding: .85rem 1.8rem; border-radius: 6px;
+            transition: transform .18s, background .18s;
+            border: 1px solid var(--ink);
         }
-        .cta-btn:hover {
-            background: var(--red); border-color: var(--red);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(220,0,0,.2);
-        }
-        .cta-btn .arrow { transition: transform .2s; }
-        .cta-btn:hover .arrow { transform: translateX(4px); }
+        .btn-primary:hover { background: var(--red); border-color: var(--red); transform: translateY(-2px); }
 
-        .cta-secondary {
-            font-size: .82rem; color: var(--mid);
-            text-decoration: none; font-weight: 500;
-            border-bottom: 1px solid var(--line);
-            padding-bottom: 1px;
-            transition: color .2s, border-color .2s;
+        .btn-ghost {
+            display: inline-flex; align-items: center; justify-content: center;
+            background: transparent; color: var(--ink);
+            border: 1px solid var(--line); text-decoration: none;
+            font-size: .95rem; font-weight: 500;
+            padding: .85rem 1.8rem; border-radius: 6px;
+            transition: all .18s; cursor: pointer;
+            font-family: inherit;
         }
-        .cta-secondary:hover { color: var(--ink); border-color: var(--mid); }
+        .btn-ghost:hover { border-color: var(--ink); background: var(--faint); }
 
         /* ── STATS ── */
-        .stats-wrap {
-            border-top: 1px solid var(--line);
-        }
+        .stats-wrap { border-top: 1px solid var(--line); }
         .stats {
             padding: 2rem clamp(1.5rem,5vw,3rem);
             max-width: 900px; margin: 0 auto; width: 100%;
@@ -151,10 +147,11 @@
             padding: 1.5rem clamp(1.5rem,5vw,3rem);
             display: flex; justify-content: space-between;
             align-items: center; flex-wrap: wrap; gap: .5rem;
-            font-size: .75rem; color: var(--mid); opacity: 0.6;
+            font-size: .75rem; color: var(--mid);
+            background: rgba(252,251,249,0.95);
         }
-        footer a { color: inherit; text-decoration: none; }
-        footer a:hover { opacity: 1; color: var(--ink); }
+        footer a { color: var(--mid); text-decoration: none; transition: color .2s; }
+        footer a:hover { color: var(--ink); }
 
         /* ── BG GRID ── */
         .bg-grid {
@@ -178,16 +175,43 @@
         .delay-4 { transition-delay: 0.4s; }
         .delay-5 { transition-delay: 0.5s; }
 
-        /* ── LANG TOGGLE ── */
-        .topbar-right { display: flex; align-items: center; gap: 1rem; }
-        .lang-toggle { display: flex; gap: 6px; }
-        .lang-btn {
-            background: none; border: 1px solid var(--line); border-radius: 6px;
-            padding: .3rem .85rem; font-size: .78rem; font-family: inherit;
-            cursor: pointer; color: var(--mid); transition: all .18s; font-weight: 500;
+        /* ── WECHAT MODAL ── */
+        .modal-overlay {
+            display: none; position: fixed; inset: 0; z-index: 999;
+            background: rgba(28,27,26,0.6); backdrop-filter: blur(6px);
+            align-items: center; justify-content: center;
         }
-        .lang-btn:hover { border-color: var(--mid); }
-        .lang-btn.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+        .modal-overlay.open { display: flex; }
+        .modal-box {
+            background: #fff; border-radius: 16px;
+            padding: 2.5rem; max-width: 320px; width: 90%;
+            text-align: center; position: relative;
+            box-shadow: 0 24px 60px rgba(0,0,0,0.15);
+            animation: popIn .25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes popIn {
+            from { transform: scale(0.92); opacity: 0; }
+            to   { transform: scale(1);    opacity: 1; }
+        }
+        .modal-close {
+            position: absolute; top: 1rem; right: 1rem;
+            background: var(--faint); border: none; width: 32px; height: 32px;
+            border-radius: 50%; font-size: 1.2rem; display: flex; align-items: center;
+            justify-content: center; cursor: pointer; color: var(--mid); transition: all .2s;
+        }
+        .modal-close:hover { background: var(--line); color: var(--ink); }
+        .modal-label {
+            font-family: 'Syne', sans-serif; font-weight: 700;
+            font-size: 1rem; margin-bottom: 1.5rem; letter-spacing: -.01em;
+        }
+        .modal-label .wechat-name { color: #07c160; }
+        .qr-image { width: 100%; max-width: 160px; height: auto; display: block; margin: 0 auto; }
+        .modal-hint { margin-top: 1.2rem; font-size: .85rem; color: var(--mid); line-height: 1.5; font-weight: 500; }
+
+        @media (max-width: 600px) {
+            .topbar-tagline { display: none; }
+            .stats { gap: 1.5rem; }
+        }
     </style>
 </head>
 <body>
@@ -207,17 +231,17 @@
 
 <main class="hero">
     <div class="hero-eyebrow fade-up" id="hero-eyebrow"></div>
-
     <h1 class="fade-up delay-1" id="hero-h1"></h1>
-
     <p class="hero-sub fade-up delay-2" id="hero-sub"></p>
-
     <div class="cta-group fade-up delay-3">
-        <a class="cta-btn" href="./AP.Econ.Graphs/index.html" id="cta-main">
-            <span id="cta-main-text"></span>
-            <span class="arrow">→</span>
+        <a class="btn-primary" href="./AP Micro Graphs/index.html" id="cta-main">
+            <span id="cta-main-text"></span> →
         </a>
-        <a class="cta-secondary" href="https://github.com/Raylaoshi/AP.Econ.Graphs" target="_blank" id="cta-gh"></a>
+        <a class="btn-ghost" href="https://github.com/Raylaoshi/AP.Econ.Graphs" target="_blank" id="cta-gh"></a>
+        <button class="btn-ghost" onclick="openWechat()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="margin-right:8px"><path d="M8.69 6.29C5.04 6.29 2 8.7 2 11.67c0 1.7.93 3.22 2.38 4.23l-.6 1.8 2.1-1.05c.7.2 1.45.31 2.22.31.23 0 .46-.01.68-.03a4.3 4.3 0 0 1-.1-.92c0-2.72 2.74-4.93 6.12-4.93.23 0 .46.01.68.03C14.93 8.5 12.06 6.29 8.69 6.29zm-1.7 2.61a.85.85 0 1 1 0 1.7.85.85 0 0 1 0-1.7zm3.41 0a.85.85 0 1 1 0 1.7.85.85 0 0 1 0-1.7zM22 15.33c0-2.6-2.62-4.71-5.86-4.71s-5.86 2.11-5.86 4.71 2.62 4.71 5.86 4.71c.63 0 1.24-.09 1.8-.25l1.73.87-.5-1.49A4.43 4.43 0 0 0 22 15.33zm-7.64-1.06a.71.71 0 1 1 0 1.42.71.71 0 0 1 0-1.42zm3.56 0a.71.71 0 1 1 0 1.42.71.71 0 0 1 0-1.42z"/></svg>
+            <span id="cta-wechat-text"></span>
+        </button>
     </div>
 </main>
 
@@ -243,33 +267,54 @@
     <span id="footer-right"></span>
 </footer>
 
+<!-- WECHAT MODAL -->
+<div class="modal-overlay" id="wechat-modal" onclick="closeOnOverlay(event)">
+    <div class="modal-box">
+        <button class="modal-close" onclick="closeWechat()" aria-label="Close">×</button>
+        <div class="modal-label">
+            <span id="modal-add-text"></span>
+            <span class="wechat-name" id="modal-name-text"></span>
+        </div>
+        <img src="https://raylaoshi.github.io/assets/images/wechat-qr.png" alt="WeChat QR Code" class="qr-image">
+        <p class="modal-hint" id="modal-hint-text"></p>
+    </div>
+</div>
+
 <script>
     const COPY = {
         en: {
-            tagline:    'by Ray',
-            eyebrow:    'Interactive Economics',
-            h1:         'Make Econ<br><em>Click</em>',
-            sub:        'Interactive graph models for <strong>AP Microeconomics</strong> — built for students who learn by doing, not just watching. Drag the curves. See the numbers move. Understand the logic.',
-            cta:        'Explore AP Micro Graphs',
-            gh:         'View on GitHub',
-            stat1:      'AP Micro Units',
-            stat2:      'Bilingual',
-            stat3:      'Powered by KineticGraphs',
-            footerL:    '© 2026 Ray · <a href="https://github.com/Raylaoshi/AP.Econ.Graphs" target="_blank">github.com/Raylaoshi</a>',
-            footerR:    'Built with KineticGraphs by Chris Makler',
+            tagline:     'by Ray',
+            eyebrow:     'Interactive Economics',
+            h1:          'Make Econ<br><em>Click.</em>',
+            sub:         'Interactive graph models for <strong>AP Microeconomics</strong> — built for students who learn by doing, not just watching. Drag the curves. See the numbers move. Understand the logic.',
+            cta:         'Explore AP Micro Graphs',
+            gh:          'View on GitHub',
+            wechatBtn:   'WeChat',
+            wechatAddMe: 'Add me on ',
+            wechatName:  'WeChat',
+            modalHint:   'Open WeChat → Scan QR code',
+            stat1:       'AP Micro Units',
+            stat2:       'Bilingual',
+            stat3:       'Powered by KineticGraphs',
+            footerL:     '© 2026 Ray · <a href="https://github.com/Raylaoshi/AP.Econ.Graphs" target="_blank">github.com/Raylaoshi</a>',
+            footerR:     'Built with KineticGraphs by Chris Makler',
         },
         zh: {
-            tagline:    'by Ray老师',
-            eyebrow:    '互动经济学',
-            h1:         '让经济学<br><em>活起来</em>',
-            sub:        '专为 <strong>AP 微观经济学</strong> 打造的互动图表模型——帮助学生在动手操作中真正理解经济逻辑。',
-            cta:        '探索 AP 微观图表',
-            gh:         '在 GitHub 上查看',
-            stat1:      'AP 微观单元',
-            stat2:      '中英双语',
-            stat3:      '基于 KineticGraphs',
-            footerL:    '© 2026 Ray老师 · <a href="https://github.com/Raylaoshi/AP.Econ.Graphs" target="_blank">github.com/Raylaoshi</a>',
-            footerR:    '基于 Chris Makler 的 KineticGraphs 构建',
+            tagline:     'by Ray老师',
+            eyebrow:     '互动经济学',
+            h1:          '让经济学<br><em>活起来。</em>',
+            sub:         '专为 <strong>AP 微观经济学</strong> 打造的互动图表模型——帮助学生在动手操作中真正理解经济逻辑。拖动曲线，看数字随之变化。',
+            cta:         '探索 AP 微观图表',
+            gh:          '在 GitHub 上查看',
+            wechatBtn:   '微信',
+            wechatAddMe: '添加我的',
+            wechatName:  '微信',
+            modalHint:   '打开微信 → 扫一扫二维码',
+            stat1:       'AP 微观单元',
+            stat2:       '中英双语',
+            stat3:       '基于 KineticGraphs',
+            footerL:     '© 2026 Ray老师 · <a href="https://github.com/Raylaoshi/AP.Econ.Graphs" target="_blank">github.com/Raylaoshi</a>',
+            footerR:     '基于 Chris Makler 的 KineticGraphs 构建',
         }
     };
 
@@ -281,6 +326,10 @@
         document.getElementById('hero-sub').innerHTML          = c.sub;
         document.getElementById('cta-main-text').textContent   = c.cta;
         document.getElementById('cta-gh').textContent          = c.gh;
+        document.getElementById('cta-wechat-text').textContent = c.wechatBtn;
+        document.getElementById('modal-add-text').textContent  = c.wechatAddMe;
+        document.getElementById('modal-name-text').textContent = c.wechatName;
+        document.getElementById('modal-hint-text').textContent = c.modalHint;
         document.getElementById('stat-1').textContent          = c.stat1;
         document.getElementById('stat-2').textContent          = c.stat2;
         document.getElementById('stat-3').textContent          = c.stat3;
@@ -292,7 +341,6 @@
         try { localStorage.setItem('econ-lang', lang); } catch(e) {}
     }
 
-    // Detect saved or browser language
     function detectLang() {
         try {
             const saved = localStorage.getItem('econ-lang');
@@ -300,6 +348,21 @@
         } catch(e) {}
         return (navigator.language || '').toLowerCase().startsWith('zh') ? 'zh' : 'en';
     }
+
+    function openWechat() {
+        document.getElementById('wechat-modal').classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeWechat() {
+        document.getElementById('wechat-modal').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+    function closeOnOverlay(e) {
+        if (e.target === document.getElementById('wechat-modal')) closeWechat();
+    }
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') closeWechat();
+    });
 
     // Init
     setLang(detectLang());
