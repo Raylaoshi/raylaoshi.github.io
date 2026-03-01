@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Ray · AP Econ Graphs</title>
+    <title>Ray's Economics</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500&family=Outfit:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
@@ -18,13 +18,14 @@
         }
 
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body { height: 100%; }
+        html { scroll-behavior: smooth; }
 
         body {
             background: var(--bg);
             color: var(--ink);
             font-family: 'Outfit', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
             font-weight: 300;
+            line-height: 1.7;
             -webkit-font-smoothing: antialiased;
             opacity: 0;
             transition: opacity 0.5s ease;
@@ -35,7 +36,7 @@
 
         /* ── TOPBAR ── */
         .topbar {
-            flex-shrink: 0; /* ← prevents body flex from squishing the topbar */
+            flex-shrink: 0;
             position: sticky; top: 0; z-index: 100;
             display: flex; align-items: center; justify-content: space-between;
             padding: 0 clamp(1rem,4vw,2rem);
@@ -47,19 +48,12 @@
             overflow: hidden;
         }
         .logo {
-            font-family: 'Syne', 'SF Pro Display', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            font-family: 'Syne', sans-serif;
             font-weight: 800; font-size: clamp(.85rem,2vw,1.1rem);
             letter-spacing: -.02em; color: var(--ink); text-decoration: none;
             line-height: 1;
         }
-        .logo span { color: var(--red); }
         .topbar-right { display: flex; align-items: center; gap: 1rem; }
-        .topbar-tagline {
-            font-size: .75rem; color: var(--mid);
-            opacity: 0.6; font-weight: 400; letter-spacing: .04em;
-            line-height: 1;
-            white-space: nowrap;
-        }
         .lang-toggle { display: flex; gap: 6px; }
         .lang-btn {
             background: none; border: 1px solid var(--line); border-radius: 6px;
@@ -70,13 +64,10 @@
         .lang-btn.active { background: var(--ink); color: #fff; border-color: var(--ink); }
 
         /* ── HERO ── */
+        .hero-wrap { border-bottom: 1px solid var(--line); }
         .hero {
-            flex: 1;
-            display: flex; flex-direction: column;
-            justify-content: center; align-items: flex-start;
-            padding: clamp(4rem,10vw,8rem) clamp(1.5rem,5vw,3rem);
-            max-width: 900px;
-            margin: 0 auto; width: 100%;
+            max-width: 1100px; margin: 0 auto;
+            padding: clamp(5rem,12vw,9rem) clamp(1.5rem,5vw,3rem) clamp(4rem,8vw,7rem);
         }
         .hero-eyebrow {
             font-size: .7rem; letter-spacing: .2em; text-transform: uppercase;
@@ -84,28 +75,25 @@
             display: flex; align-items: center; gap: .6rem;
         }
         .hero-eyebrow::before {
-            content: '';
-            display: inline-block; width: 24px; height: 2px;
-            background: var(--red);
+            content: ''; display: inline-block;
+            width: 24px; height: 2px; background: var(--red);
         }
         .hero h1 {
-            font-family: 'Syne', sans-serif;
-            font-weight: 800;
-            font-size: clamp(3rem, 9vw, 6.5rem);
+            font-family: 'Syne', sans-serif; font-weight: 800;
+            font-size: clamp(3.2rem,9vw,7rem);
             line-height: 1.0; letter-spacing: -.03em;
             color: var(--ink); margin-bottom: 1.5rem;
         }
         .hero h1 em { font-style: normal; color: var(--red); }
         .hero-sub {
-            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            font-size: clamp(1rem,2.5vw,1.2rem);
             color: var(--mid); line-height: 1.7;
             max-width: 560px; margin-bottom: 3rem; font-weight: 300;
         }
         .hero-sub strong { color: var(--ink); font-weight: 500; }
-
-        /* ── BUTTONS ── */
         .cta-group { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
 
+        /* ── BUTTONS ── */
         .btn-primary {
             display: inline-flex; align-items: center; justify-content: center;
             background: var(--ink); color: #fff; text-decoration: none;
@@ -115,36 +103,190 @@
             border: 1px solid var(--ink);
         }
         .btn-primary:hover { background: var(--red); border-color: var(--red); transform: translateY(-2px); }
-
         .btn-ghost {
             display: inline-flex; align-items: center; justify-content: center;
             background: transparent; color: var(--ink);
             border: 1px solid var(--line); text-decoration: none;
             font-size: .95rem; font-weight: 500;
             padding: .85rem 1.8rem; border-radius: 6px;
-            transition: all .18s; cursor: pointer;
-            font-family: inherit;
+            transition: all .18s; cursor: pointer; font-family: inherit;
         }
         .btn-ghost:hover { border-color: var(--ink); background: var(--faint); }
 
-        /* ── STATS ── */
-        .stats-wrap { border-top: 1px solid var(--line); flex-shrink: 0; }
-        .stats {
-            padding: 2rem clamp(1.5rem,5vw,3rem);
-            max-width: 900px; margin: 0 auto; width: 100%;
-            display: flex; gap: 2.5rem; flex-wrap: wrap;
+        /* ── PHOTO HERO ── */
+        .photo-section {
+            position: relative;
+            height: clamp(420px, 70vh, 680px);
+            overflow: hidden;
         }
-        .stat-num {
+        .photo-section img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            object-position: center 50%;
+            display: block;
+        }
+        /* Gradient overlay — dark at bottom for text legibility */
+        .photo-section::after {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(
+                to bottom,
+                rgba(5,14,60,0.0) 0%,
+                rgba(5,14,60,0.0) 75%,
+                rgba(5,14,60,0.55) 95%,
+                rgba(5,14,60,0.82) 100%
+            );
+        }
+        .photo-caption {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            z-index: 2;
+            padding: clamp(2rem,5vw,3rem) clamp(1.5rem,5vw,3rem);
+            max-width: 1100px; margin: 0 auto;
+        }
+        .photo-caption-inner {
+            max-width: 1100px; margin: 0 auto;
+            position: relative; z-index: 2;
+            padding: clamp(2rem,5vw,3rem) clamp(1.5rem,5vw,3rem);
+        }
+        .photo-name {
+            font-family: 'Syne', sans-serif; font-weight: 800;
+            font-size: clamp(2rem,5vw,3.5rem);
+            color: #fff; letter-spacing: -.02em; line-height: 1;
+            margin-bottom: .5rem;
+        }
+        .photo-name span { color: var(--red); }
+        .photo-tagline {
+            font-size: clamp(.85rem,2vw,1rem);
+            color: rgba(255,255,255,0.75); font-weight: 300;
+            letter-spacing: .02em;
+        }
+
+        /* ── ABOUT TEXT ── */
+        .about-wrap { border-bottom: 1px solid var(--line); }
+        .about {
+            max-width: 1100px; margin: 0 auto;
+            padding: clamp(3rem,7vw,5rem) clamp(1.5rem,5vw,3rem);
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: clamp(3rem,6vw,6rem);
+            align-items: start;
+        }
+        .about-left { position: sticky; top: 80px; }
+        .about-sec-num {
+            font-family: 'Syne', sans-serif; font-size: 1.2rem;
+            color: var(--red); font-weight: 800; opacity: 0.8;
+            margin-bottom: .5rem;
+        }
+        .about-sec-title {
+            font-family: 'Syne', sans-serif; font-weight: 700;
+            font-size: clamp(1.4rem,3vw,2rem);
+            letter-spacing: -.02em; color: var(--ink);
+            line-height: 1.2;
+        }
+        .about-right p {
+            font-size: clamp(.95rem,2vw,1.05rem);
+            color: var(--mid); line-height: 1.85;
+            margin-bottom: 1.4rem;
+        }
+        .about-right p:last-child { margin-bottom: 0; }
+        .about-right strong { color: var(--ink); font-weight: 500; }
+
+        /* ── AP ECON CARD ── */
+        .card-wrap { border-bottom: 1px solid var(--line); }
+        .card-section {
+            max-width: 1100px; margin: 0 auto;
+            padding: clamp(3rem,7vw,5rem) clamp(1.5rem,5vw,3rem);
+        }
+        .card-header {
+            display: flex; align-items: baseline; gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .card-sec-num {
+            font-family: 'Syne', sans-serif; font-size: 1.2rem;
+            color: var(--red); font-weight: 800; opacity: 0.8;
+        }
+        .card-sec-title {
+            font-family: 'Syne', sans-serif; font-weight: 700;
+            font-size: clamp(1.4rem,3vw,2rem); letter-spacing: -.02em;
+        }
+        .project-card {
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 2rem; flex-wrap: wrap;
+            border: 1px solid var(--line); border-radius: 12px;
+            padding: clamp(2rem,5vw,3rem) clamp(1.5rem,4vw,2.5rem);
+            text-decoration: none; color: var(--ink);
+            transition: background .2s, box-shadow .2s;
+            background: var(--bg);
+        }
+        .project-card:hover {
+            background: var(--faint);
+            box-shadow: 0 8px 32px rgba(5,14,60,.06);
+        }
+        .project-card-left { flex: 1; min-width: min(100%, 300px); }
+        .project-card-num {
             font-family: 'Syne', sans-serif;
-            font-size: 1.6rem; font-weight: 800;
-            color: var(--ink); letter-spacing: -.02em; line-height: 1;
+            font-size: 2.5rem; font-weight: 800;
+            color: var(--line); line-height: 1; margin-bottom: .5rem;
         }
-        .stat-num span { color: var(--red); }
-        .stat-label {
-            font-size: .72rem; letter-spacing: .1em;
-            text-transform: uppercase; color: var(--mid);
-            opacity: 0.6; margin-top: .25rem;
+        .project-card h3 {
+            font-family: 'Syne', sans-serif; font-size: clamp(1.1rem,2.5vw,1.5rem);
+            font-weight: 700; letter-spacing: -.01em; margin-bottom: .6rem;
         }
+        .project-card p {
+            font-size: .95rem; color: var(--mid); line-height: 1.6;
+        }
+        .project-card-arrow {
+            font-size: .9rem; color: var(--red); font-weight: 600;
+            display: flex; align-items: center; gap: .5rem;
+            white-space: nowrap; flex-shrink: 0;
+            transition: gap .2s;
+        }
+        .project-card:hover .project-card-arrow { gap: .9rem; }
+
+        /* ── CONTACT ── */
+        .contact-wrap { }
+        .contact-section {
+            max-width: 1100px; margin: 0 auto;
+            padding: clamp(3rem,7vw,5rem) clamp(1.5rem,5vw,3rem);
+        }
+        .contact-header {
+            display: flex; align-items: baseline; gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .contact-sec-num {
+            font-family: 'Syne', sans-serif; font-size: 1.2rem;
+            color: var(--red); font-weight: 800; opacity: 0.8;
+        }
+        .contact-sec-title {
+            font-family: 'Syne', sans-serif; font-weight: 700;
+            font-size: clamp(1.4rem,3vw,2rem); letter-spacing: -.02em;
+        }
+        .contact-strip {
+            background: var(--ink); border-radius: 12px;
+            padding: clamp(2.5rem,5vw,3.5rem) clamp(1.5rem,4vw,3rem);
+            display: flex; flex-wrap: wrap; align-items: center;
+            justify-content: space-between; gap: 2rem;
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.2);
+        }
+        .contact-left { flex: 1; min-width: min(100%, 300px); }
+        .contact-strip h3 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(1.4rem,3vw,2rem); font-weight: 700;
+            color: #fff; letter-spacing: -.02em; margin-bottom: .5rem;
+        }
+        .contact-strip p {
+            font-size: 1rem; color: rgba(255,255,255,.7);
+            max-width: 450px; line-height: 1.6;
+        }
+        .contact-btn {
+            display: inline-flex; align-items: center;
+            background: var(--red); color: #fff; text-decoration: none;
+            font-size: .95rem; font-weight: 500;
+            padding: .85rem 2rem; border-radius: 6px;
+            white-space: nowrap; transition: all .18s;
+            border: none; cursor: pointer; font-family: inherit;
+        }
+        .contact-btn:hover { background: #fff; color: var(--red); transform: translateY(-2px); }
 
         /* ── FOOTER ── */
         footer {
@@ -166,7 +308,7 @@
                 linear-gradient(var(--line) 1px, transparent 1px),
                 linear-gradient(90deg, var(--line) 1px, transparent 1px);
             background-size: 60px 60px;
-            opacity: 0.35;
+            opacity: 0.3;
         }
 
         /* ── ANIMATIONS ── */
@@ -179,7 +321,6 @@
         .delay-2 { transition-delay: 0.2s; }
         .delay-3 { transition-delay: 0.3s; }
         .delay-4 { transition-delay: 0.4s; }
-        .delay-5 { transition-delay: 0.5s; }
 
         /* ── WECHAT MODAL ── */
         .modal-overlay {
@@ -197,7 +338,7 @@
         }
         @keyframes popIn {
             from { transform: scale(0.92); opacity: 0; }
-            to   { transform: scale(1);    opacity: 1; }
+            to   { transform: scale(1); opacity: 1; }
         }
         .modal-close {
             position: absolute; top: 1rem; right: 1rem;
@@ -214,9 +355,13 @@
         .qr-image { width: 100%; max-width: 160px; height: auto; display: block; margin: 0 auto; }
         .modal-hint { margin-top: 1.2rem; font-size: .85rem; color: var(--mid); line-height: 1.5; font-weight: 500; }
 
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            .about { grid-template-columns: 1fr; }
+            .about-left { position: static; }
+        }
         @media (max-width: 600px) {
-            .topbar-tagline { display: none; }
-            .stats { gap: 1.5rem; }
+            .photo-section { height: 60vw; min-height: 300px; }
         }
     </style>
 </head>
@@ -224,10 +369,10 @@
 
 <div class="bg-grid"></div>
 
+<!-- TOPBAR -->
 <header class="topbar">
-    <a class="logo" href="/"><span>AP</span>·Econ·Graphs</a>
+    <a class="logo" href="/"><span id="logo-text"></span></a>
     <div class="topbar-right">
-        <span class="topbar-tagline" id="topbar-tagline"></span>
         <div class="lang-toggle">
             <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
             <button class="lang-btn" id="btn-zh" onclick="setLang('zh')">中文</button>
@@ -235,39 +380,80 @@
     </div>
 </header>
 
-<main class="hero">
-    <div class="hero-eyebrow fade-up" id="hero-eyebrow"></div>
-    <h1 class="fade-up delay-1" id="hero-h1"></h1>
-    <p class="hero-sub fade-up delay-2" id="hero-sub"></p>
-    <div class="cta-group fade-up delay-3">
-        <a class="btn-primary" href="./AP.Econ.Graphs/index.html" id="cta-main">
-            <span id="cta-main-text"></span> →
-        </a>
-        <a class="btn-ghost" href="https://github.com/Raylaoshi/AP.Econ.Graphs" target="_blank" id="cta-gh"></a>
-        <button class="btn-ghost" onclick="openWechat()">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="margin-right:8px"><path d="M8.69 6.29C5.04 6.29 2 8.7 2 11.67c0 1.7.93 3.22 2.38 4.23l-.6 1.8 2.1-1.05c.7.2 1.45.31 2.22.31.23 0 .46-.01.68-.03a4.3 4.3 0 0 1-.1-.92c0-2.72 2.74-4.93 6.12-4.93.23 0 .46.01.68.03C14.93 8.5 12.06 6.29 8.69 6.29zm-1.7 2.61a.85.85 0 1 1 0 1.7.85.85 0 0 1 0-1.7zm3.41 0a.85.85 0 1 1 0 1.7.85.85 0 0 1 0-1.7zM22 15.33c0-2.6-2.62-4.71-5.86-4.71s-5.86 2.11-5.86 4.71 2.62 4.71 5.86 4.71c.63 0 1.24-.09 1.8-.25l1.73.87-.5-1.49A4.43 4.43 0 0 0 22 15.33zm-7.64-1.06a.71.71 0 1 1 0 1.42.71.71 0 0 1 0-1.42zm3.56 0a.71.71 0 1 1 0 1.42.71.71 0 0 1 0-1.42z"/></svg>
-            <span id="cta-wechat-text"></span>
-        </button>
-    </div>
-</main>
-
-<div class="stats-wrap">
-    <div class="stats">
-        <div class="stat-item fade-up delay-3">
-            <div class="stat-num">6<span>+</span></div>
-            <div class="stat-label" id="stat-1"></div>
-        </div>
-        <div class="stat-item fade-up delay-4">
-            <div class="stat-num">EN<span>/</span>中</div>
-            <div class="stat-label" id="stat-2"></div>
-        </div>
-        <div class="stat-item fade-up delay-5">
-            <div class="stat-num">KG<span>JS</span></div>
-            <div class="stat-label" id="stat-3"></div>
+<!-- HERO -->
+<div class="hero-wrap">
+    <div class="hero">
+        <div class="hero-eyebrow fade-up" id="hero-eyebrow"></div>
+        <h1 class="fade-up delay-1" id="hero-h1"></h1>
+        <p class="hero-sub fade-up delay-2" id="hero-sub"></p>
+        <div class="cta-group fade-up delay-3">
+            <a class="btn-primary" href="#about" id="cta-about"></a>
+            <a class="btn-ghost" href="https://raylaoshi.github.io/AP.Econ.Graphs/" target="_blank" id="cta-graphs"></a>
+            <button class="btn-ghost" onclick="openWechat()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="margin-right:8px"><path d="M8.69 6.29C5.04 6.29 2 8.7 2 11.67c0 1.7.93 3.22 2.38 4.23l-.6 1.8 2.1-1.05c.7.2 1.45.31 2.22.31.23 0 .46-.01.68-.03a4.3 4.3 0 0 1-.1-.92c0-2.72 2.74-4.93 6.12-4.93.23 0 .46.01.68.03C14.93 8.5 12.06 6.29 8.69 6.29zm-1.7 2.61a.85.85 0 1 1 0 1.7.85.85 0 0 1 0-1.7zm3.41 0a.85.85 0 1 1 0 1.7.85.85 0 0 1 0-1.7zM22 15.33c0-2.6-2.62-4.71-5.86-4.71s-5.86 2.11-5.86 4.71 2.62 4.71 5.86 4.71c.63 0 1.24-.09 1.8-.25l1.73.87-.5-1.49A4.43 4.43 0 0 0 22 15.33zm-7.64-1.06a.71.71 0 1 1 0 1.42.71.71 0 0 1 0-1.42zm3.56 0a.71.71 0 1 1 0 1.42.71.71 0 0 1 0-1.42z"/></svg>
+                <span id="cta-wechat"></span>
+            </button>
         </div>
     </div>
 </div>
 
+<!-- PHOTO + NAME OVERLAY -->
+<div class="photo-section" id="about">
+    <img src="assets/images/ray-photo.jpg" alt="Ray in Xinjiang mountains">
+    <div class="photo-caption-inner">
+        <div class="photo-name"><span id="photo-name-text"></span></div>
+        <div class="photo-tagline" id="photo-tagline"></div>
+    </div>
+</div>
+
+<!-- ABOUT TEXT -->
+<div class="about-wrap">
+    <div class="about">
+        <div class="about-left">
+            <div class="about-sec-num">01</div>
+            <div class="about-sec-title" id="about-title"></div>
+        </div>
+        <div class="about-right" id="about-text"></div>
+    </div>
+</div>
+
+<!-- AP ECON GRAPHS CARD -->
+<div class="card-wrap">
+    <div class="card-section">
+        <div class="card-header">
+            <span class="card-sec-num">02</span>
+            <span class="card-sec-title" id="card-title"></span>
+        </div>
+        <a class="project-card" href="https://raylaoshi.github.io/AP.Econ.Graphs/" target="_blank">
+            <div class="project-card-left">
+                <div class="project-card-num">AP</div>
+                <h3 id="card-name"></h3>
+                <p id="card-desc"></p>
+            </div>
+            <div class="project-card-arrow"><span id="card-cta"></span> →</div>
+        </a>
+    </div>
+</div>
+
+<!-- CONTACT -->
+<div class="contact-wrap">
+    <div class="contact-section">
+        <div class="contact-header">
+            <span class="contact-sec-num">03</span>
+            <span class="contact-sec-title" id="contact-title"></span>
+        </div>
+        <div class="contact-strip">
+            <div class="contact-left">
+                <h3 id="contact-heading"></h3>
+                <p id="contact-desc"></p>
+            </div>
+            <a class="contact-btn" id="btn-contact-email" href="mailto:pengzihao@yahoo.com" id="contact-btn-email"></a>
+            <button class="contact-btn" id="btn-contact-wechat" onclick="openWechat()" style="display:none;"></button>
+        </div>
+    </div>
+</div>
+
+<!-- FOOTER -->
 <footer>
     <span id="footer-left"></span>
     <span id="footer-right"></span>
@@ -287,101 +473,189 @@
 </div>
 
 <script>
-    const COPY = {
-        en: {
-            tagline:     'by Ray',
-            eyebrow:     'Interactive Economics',
-            h1:          'Make Econ<br><em>Click.</em>',
-            sub:         'Interactive graph models for <strong>AP Microeconomics</strong> — built for students who learn by doing, not just watching. Drag the curves. See the numbers move. Understand the logic.',
-            cta:         'Explore AP Micro Graphs',
-            gh:          'View on GitHub',
-            wechatBtn:   'WeChat',
-            wechatAddMe: 'Add me on ',
-            wechatName:  'WeChat',
-            modalHint:   'Open WeChat → Scan QR code',
-            stat1:       'AP Micro Units',
-            stat2:       'Bilingual',
-            stat3:       'Powered by KineticGraphs',
-            footerL:     '© 2026 Ray · <a href="https://github.com/Raylaoshi/AP.Econ.Graphs" target="_blank">github.com/Raylaoshi</a>',
-            footerR:     'Built with KineticGraphs by Chris Makler',
-        },
-        zh: {
-            tagline:     'by Ray老师',
-            eyebrow:     '互动经济学',
-            h1:          '让经济学<br><em>活起来。</em>',
-            sub:         '专为 <strong>AP 经济学</strong> 打造的互动图表模型——帮助学生在动手操作中真正理解经济逻辑。',
-            cta:         '探索 AP 微观图表',
-            gh:          '在 GitHub 上查看',
-            wechatBtn:   '微信',
-            wechatAddMe: '添加我的',
-            wechatName:  '微信',
-            modalHint:   '打开微信 → 扫一扫二维码',
-            stat1:       'AP 微观单元',
-            stat2:       '中英双语',
-            stat3:       '基于 KineticGraphs',
-            footerL:     '© 2026 Ray老师 · <a href="https://github.com/Raylaoshi/AP.Econ.Graphs" target="_blank">github.com/Raylaoshi</a>',
-            footerR:     '基于 Chris Makler 的 KineticGraphs 构建',
-        }
-    };
+const COPY = {
+    en: {
+        logo:           "<span style='color:var(--red)'>Ray's</span> Economics",
+        eyebrow:        'AP Economics',
+        h1:             "<em>Ray's</em><br>Economics",
+        sub:            'Interactive economics resources and teaching — built for students who want to understand the logic, not just pass the test.',
+        ctaAbout:       'About Me ↓',
+        ctaGraphs:      'AP Econ Graphs ↗',
+        ctaWechat:      'WeChat',
+        photoName:      "<span style='color:var(--red)'>Ray</span> Peng",
+        photoTagline:   'AP Economics Teacher · Beijing',
+        aboutTitle:     'About Me',
+        aboutText: `
+            <p>Hi, I'm Ray.</p>
 
-    function setLang(lang) {
-        const c = COPY[lang];
-        document.getElementById('topbar-tagline').textContent  = c.tagline;
-        document.getElementById('hero-eyebrow').textContent    = c.eyebrow;
-        document.getElementById('hero-h1').innerHTML           = c.h1;
-        document.getElementById('hero-sub').innerHTML          = c.sub;
-        document.getElementById('cta-main-text').textContent   = c.cta;
-        document.getElementById('cta-gh').textContent          = c.gh;
-        document.getElementById('cta-wechat-text').textContent = c.wechatBtn;
-        document.getElementById('modal-add-text').textContent  = c.wechatAddMe;
-        document.getElementById('modal-name-text').textContent = c.wechatName;
-        document.getElementById('modal-hint-text').textContent = c.modalHint;
-        document.getElementById('stat-1').textContent          = c.stat1;
-        document.getElementById('stat-2').textContent          = c.stat2;
-        document.getElementById('stat-3').textContent          = c.stat3;
-        document.getElementById('footer-left').innerHTML       = c.footerL;
-        document.getElementById('footer-right').textContent    = c.footerR;
-        document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-        document.getElementById('btn-zh').classList.toggle('active', lang === 'zh');
-        document.documentElement.lang = lang === 'zh' ? 'zh' : 'en';
-        try { localStorage.setItem('econ-lang', lang); } catch(e) {}
+            <p>I’m an AP Economics teacher and a coach for the National Economics Challenge (NEC).</p>
+
+            <p>Over the past six years, I’ve taught more than 600 students. Time and time again, I’ve seen kids diligently take notes in class, yet still struggle to grasp the fundamental "why." Why do prices fluctuate? Why do governments intervene in markets? Why can the exact same policy yield completely different outcomes in different scenarios? Wrestling with these questions is what makes economics genuinely fascinating.</p>
+
+            <p>That’s why my classes are never just about rote memorization or endlessly grinding through practice questions. Don't get me wrong—we still put in the hard work, and I make absolutely sure my students master every concept rather than just skimming the surface. But before we dive into the technicalities, my goal is to spark their curiosity. I want them to start questioning the everyday world around them: the pricing logic of their morning coffee, the supply and demand dynamics behind scalped concert tickets, or the shifting cost structures in the tech industry. Economics stems from real life, and teaching it shouldn't be trapped in abstract theory.</p>
+
+            <p>This website was born out of that exact same philosophy. Here, you'll find interactive AP Economics graphs that I designed specifically for students. Instead of staring passively at a whiteboard, students can click and drag the curves, watch market conditions shift in real time, and genuinely get a "feel" for the economic logic at play. It’s a passion project I’ve been wanting to build for years, and it's finally taking shape.</p>
+
+            <p>Whether you’re a fellow economics educator looking to bring these interactive models into your own classroom, or a parent or student searching for a clear path to truly understand the subject—I’d love to connect. Feel free to reach out!</p>
+        `,
+        cardTitle:      'Interactive Graphs',
+        cardName:       'AP Econ Graphs',
+        cardDesc:       'Interactive graph models for AP Microeconomics — drag the curves, see the numbers move, understand the logic.',
+        cardCta:        'Visit site',
+        contactTitle:   'Get in Touch',
+        contactHeading: "Let's Connect",
+        contactDesc:    'Teaching AP Econ? Looking for a tutor? Want to collaborate? I\'m always happy to chat.',
+        contactBtn:     'Drop an Email →',
+        wechatAddMe:    'Add me on ',
+        wechatName:     'WeChat',
+        modalHint:      'Open WeChat → Scan QR code',
+        footerL:        '© 2026 Ray · <a href="https://github.com/Raylaoshi" target="_blank">github.com/Raylaoshi</a>',
+        footerR:        'Built with KineticGraphs by Chris Makler',
+    },
+    zh: {
+        logo:           "<span style='color:var(--red)'>Ray</span>老师",
+        eyebrow:        'AP经济学',
+        h1:             "<em>Ray老师</em><br>经济学",
+        sub:            '互动经济学资源与教学——帮助学生真正理解经济逻辑。',
+        ctaAbout:       '关于我 ↓',
+        ctaGraphs:      'AP经济图像 ↗',
+        ctaWechat:      '微信',
+        photoName:      "<span style='color:var(--red)'>Ray</span>老师",
+        photoTagline:   'AP经济学教师 · 北京',
+        aboutTitle:     '关于我',
+        aboutText: `
+            <p>你好，我是Ray老师。</p>
+            <p>我先后在加拿大麦吉尔大学和比利时鲁汶大学读取了本科和硕士学位。留学那几年让我收获最大的，不仅是学位证书，而是真正学会了怎么思考。经济学就是在那时候吸引了我：它不是一套枯燥的公式，而是一种看世界的方式。</p>
+            <p>回国之后，我先在培训机构教了几年AP和IB经济学，后来来到北京一所公立市重点学校的国际部，成了一名全职AP经济学老师，同时担任NEC经济学竞赛的教练。</p>
+            <p>从教6年以来，我教过的学生超过600人。我见过太多孩子，课堂上认认真真地记笔记，却始终搞不清楚"为什么"。为什么价格会变？为什么政府要干预市场？为什么同样的政策，在不同市场环节下会有完全不同的结果？这些问题，才是经济学真正有意思的地方。</p>
+            <p>所以，我的课不是为了背公式、刷题而设——当然，该做的练习一样都不会少，每个知识点我也必须确保学生真正掌握，而不是模模糊糊带过。但在这之前，我更希望学生先对这门学科产生好奇，从身边的事情开始琢磨：一杯咖啡的定价逻辑，演唱会黄牛票背后的供求关系，科技行业的成本变化……经济学从生活中来，教学也不该落入抽象推理的套路。</p>
+            <p>做这个网站，也是出于同样的想法。这里有我专门为学生设计的AP经济学互动图像——学生可以亲手拖动曲线，实时看到市场变化，真正“摸”到经济逻辑，而不只是对着黑板上的板书发呆。这是我这几年一直想做的事，现在终于有所眉目。</p>
+            <p>如果你也是一位经济学老师，想把这些互动的模型带给你的学生；或者你是家长、是学生，正在找一条能把经济学学明白的路——都欢迎你来找我聊一聊。</p>
+        `,
+        cardTitle:      '互动图像',
+        cardName:       'AP经济学互动图像',
+        cardDesc:       '专为AP微观经济学设计的互动图表——拖动曲线，看图像变化，摸透图像背后的逻辑。',
+        cardCta:        '访问网站',
+        contactTitle:   '联系我',
+        contactHeading: '欢迎交流',
+        contactDesc:    '无论你是探索新资源的同行教师，还是正在学习AP经济学的学生，抑或是为孩子寻找老师的家长，都欢迎和我聊聊。',
+        contactBtn:     '添加微信 →',
+        wechatAddMe:    '添加我的',
+        wechatName:     '微信',
+        modalHint:      '打开微信 → 扫一扫二维码',
+        footerL:        '© 2026 Ray老师 · <a href="https://github.com/Raylaoshi" target="_blank">github.com/Raylaoshi</a>',
+        footerR:        '基于 Chris Makler 的 KineticGraphs 构建',
+    }
+};
+
+function setLang(lang) {
+    const c = COPY[lang];
+
+    document.getElementById('logo-text').innerHTML        = c.logo;
+    document.getElementById('hero-eyebrow').textContent   = c.eyebrow;
+    document.getElementById('hero-h1').innerHTML          = c.h1;
+    document.getElementById('hero-sub').textContent       = c.sub;
+    document.getElementById('cta-about').textContent      = c.ctaAbout;
+    document.getElementById('cta-graphs').textContent     = c.ctaGraphs;
+    document.getElementById('cta-wechat').textContent     = c.ctaWechat;
+    document.getElementById('photo-name-text').innerHTML  = c.photoName;
+    document.getElementById('photo-tagline').textContent  = c.photoTagline;
+    document.getElementById('about-title').textContent    = c.aboutTitle;
+    document.getElementById('about-text').innerHTML       = c.aboutText;
+    document.getElementById('card-title').textContent     = c.cardTitle;
+    document.getElementById('card-name').textContent      = c.cardName;
+    document.getElementById('card-desc').textContent      = c.cardDesc;
+    document.getElementById('card-cta').textContent       = c.cardCta;
+    document.getElementById('contact-title').textContent  = c.contactTitle;
+    document.getElementById('contact-heading').textContent= c.contactHeading;
+    document.getElementById('contact-desc').textContent   = c.contactDesc;
+    document.getElementById('modal-add-text').textContent = c.wechatAddMe;
+    document.getElementById('modal-name-text').textContent= c.wechatName;
+    document.getElementById('modal-hint-text').textContent= c.modalHint;
+    document.getElementById('footer-left').innerHTML      = c.footerL;
+    document.getElementById('footer-right').textContent   = c.footerR;
+
+    // Contact button — email in EN, WeChat in ZH
+    const btnEmail  = document.getElementById('btn-contact-email');
+    const btnWechat = document.getElementById('btn-contact-wechat');
+    if (lang === 'zh') {
+        btnEmail.style.display  = 'none';
+        btnWechat.style.display = 'inline-flex';
+        btnWechat.textContent   = c.contactBtn;
+    } else {
+        btnEmail.style.display  = 'inline-flex';
+        btnEmail.textContent    = c.contactBtn;
+        btnWechat.style.display = 'none';
     }
 
-    function detectLang() {
-        try {
-            const saved = localStorage.getItem('econ-lang');
-            if (saved === 'en' || saved === 'zh') return saved;
-        } catch(e) {}
-        return (navigator.language || '').toLowerCase().startsWith('zh') ? 'zh' : 'en';
-    }
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.getElementById('btn-zh').classList.toggle('active', lang === 'zh');
+    document.documentElement.lang = lang === 'zh' ? 'zh' : 'en';
+    try { localStorage.setItem('econ-lang', lang); } catch(e) {}
 
-    function openWechat() {
-        document.getElementById('wechat-modal').classList.add('open');
-        document.body.style.overflow = 'hidden';
-    }
-    function closeWechat() {
-        document.getElementById('wechat-modal').classList.remove('open');
-        document.body.style.overflow = '';
-    }
-    function closeOnOverlay(e) {
-        if (e.target === document.getElementById('wechat-modal')) closeWechat();
-    }
-    document.addEventListener('keydown', e => {
-        if (e.key === 'Escape') closeWechat();
-    });
+    // Chinese-specific typography
+    const h1 = document.querySelector('h1');
+    const heroSub = document.getElementById('hero-sub');
+    if (lang === 'zh') {
+        h1.style.lineHeight    = '1.2';
+        h1.style.letterSpacing = '0.05em';
+        heroSub.style.lineHeight    = '1.8';
+        heroSub.style.letterSpacing = '0.02em';
+    } else {
+}
+}
 
-    // Init
-    setLang(detectLang());
+function detectLang() {
+    try {
+        const saved = localStorage.getItem('econ-lang');
+        if (saved === 'en' || saved === 'zh') return saved;
+    } catch(e) {}
+    return (navigator.language || '').toLowerCase().startsWith('zh') ? 'zh' : 'en';
+}
 
+function openWechat() {
+    document.getElementById('wechat-modal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+function closeWechat() {
+    document.getElementById('wechat-modal').classList.remove('open');
+    document.body.style.overflow = '';
+}
+function closeOnOverlay(e) {
+    if (e.target === document.getElementById('wechat-modal')) closeWechat();
+}
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeWechat();
+});
+
+// Init
+setLang(detectLang());
+
+requestAnimationFrame(() => {
     requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-            document.body.style.opacity = '1';
-        });
+        document.body.style.opacity = '1';
     });
+});
 
-    setTimeout(() => {
-        document.querySelectorAll('.fade-up').forEach(el => el.classList.add('visible'));
-    }, 100);
+setTimeout(() => {
+    document.querySelectorAll('.fade-up').forEach(el => el.classList.add('visible'));
+}, 100);
+
+// Scroll-triggered fade for about section
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.about-right p').forEach((el, i) => {
+    el.classList.add('fade-up');
+    el.style.transitionDelay = (i * 0.07) + 's';
+    observer.observe(el);
+});
 </script>
 
 </body>
