@@ -1554,6 +1554,7 @@ function showResults(){
     msg.textContent='别灰心！每次练习都是积累！';
   }
 
+  document.getElementById('rb-correct').textContent=S.score.ok;
   document.getElementById('rb-streak').textContent=S.maxStreak||0;
   const st=srStats();
   document.getElementById('rb-mastered').textContent=st.ma;
