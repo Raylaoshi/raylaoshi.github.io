@@ -388,6 +388,7 @@
         <div class="cta-group fade-up delay-3">
             <a class="btn-primary" href="#about" id="cta-about"></a>
             <a class="btn-ghost" href="https://raylaoshi.github.io/AP.Econ.Graphs/" target="_blank" id="cta-graphs"></a>
+            <a class="btn-ghost" href="https://raylaoshi.github.io/vocab/vocab_v2.html" target="_blank" id="cta-vocab"></a>
             <button class="btn-ghost" onclick="openWechat()">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="margin-right:8px"><path d="M8.69 6.29C5.04 6.29 2 8.7 2 11.67c0 1.7.93 3.22 2.38 4.23l-.6 1.8 2.1-1.05c.7.2 1.45.31 2.22.31.23 0 .46-.01.68-.03a4.3 4.3 0 0 1-.1-.92c0-2.72 2.74-4.93 6.12-4.93.23 0 .46.01.68.03C14.93 8.5 12.06 6.29 8.69 6.29zm-1.7 2.61a.85.85 0 1 1 0 1.7.85.85 0 0 1 0-1.7zm3.41 0a.85.85 0 1 1 0 1.7.85.85 0 0 1 0-1.7zM22 15.33c0-2.6-2.62-4.71-5.86-4.71s-5.86 2.11-5.86 4.71 2.62 4.71 5.86 4.71c.63 0 1.24-.09 1.8-.25l1.73.87-.5-1.49A4.43 4.43 0 0 0 22 15.33zm-7.64-1.06a.71.71 0 1 1 0 1.42.71.71 0 0 1 0-1.42zm3.56 0a.71.71 0 1 1 0 1.42.71.71 0 0 1 0-1.42z"/></svg>
                 <span id="cta-wechat"></span>
@@ -434,10 +435,28 @@
     </div>
 </div>
 
+<!-- VOCAB APP CARD -->
+<div class="card-wrap">
+    <div class="card-section">
+        <div class="card-header">
+            <span class="card-sec-num">03</span>
+            <span class="card-sec-title" id="vocab-title"></span>
+        </div>
+        <a class="project-card" href="https://raylaoshi.github.io/vocab/vocab_v2.html" target="_blank">
+            <div class="project-card-left">
+                <div class="project-card-num">词</div>
+                <h3 id="vocab-name"></h3>
+                <p id="vocab-desc"></p>
+            </div>
+            <div class="project-card-arrow"><span id="vocab-cta"></span> →</div>
+        </a>
+    </div>
+</div>
+
 <!-- CONTACT -->
 <div class="contact-section">
     <div class="contact-header">
-        <span class="contact-sec-num">03</span>
+        <span class="contact-sec-num">04</span>
         <span class="contact-sec-title" id="contact-title"></span>
     </div>
     <div class="contact-strip">
@@ -478,6 +497,7 @@ const COPY = {
         sub:            'Interactive economics resources and teaching — built for students who want to understand the logic, not just pass the test.',
         ctaAbout:       'About Me ↓',
         ctaGraphs:      'AP Econ Graphs ↗',
+        ctaVocab:       'AP Vocab ↗',
         ctaWechat:      'WeChat',
         photoName:      "<span style='color:var(--red)'>Ray</span> Peng",
         photoTagline:   'AP Economics Teacher · Beijing',
@@ -499,6 +519,10 @@ const COPY = {
         cardName:       'AP Econ Graphs',
         cardDesc:       'Interactive graph models for AP Microeconomics — drag the curves, see the numbers move, understand the logic.',
         cardCta:        'Visit site',
+        vocabTitle:     'Vocabulary App',
+        vocabName:      'AP Micro Vocab',
+        vocabDesc:      'Spaced-repetition flashcards for AP Microeconomics — 729 terms across 6 units, with leaderboard and progress tracking.',
+        vocabCta:       'Visit site',
         contactTitle:   'Get in Touch',
         contactHeading: "Let's Connect",
         contactDesc:    'Teaching AP Econ? Looking for a tutor? Want to collaborate? I\'m always happy to chat.',
@@ -516,6 +540,7 @@ const COPY = {
         sub:            '互动经济学资源与教学——帮助学生真正理解经济逻辑。',
         ctaAbout:       '关于我 ↓',
         ctaGraphs:      'AP经济图像 ↗',
+        ctaVocab:       'AP词汇 ↗',
         ctaWechat:      '微信',
         photoName:      "<span style='color:var(--red)'>Ray</span>老师",
         photoTagline:   'AP经济学教师 · 北京',
@@ -533,6 +558,10 @@ const COPY = {
         cardName:       'AP经济学互动图像',
         cardDesc:       '专为AP微观经济学设计的互动图表——拖动曲线，看图像变化，摸透图像背后的逻辑。',
         cardCta:        '访问网站',
+        vocabTitle:     '词汇积累',
+        vocabName:      'AP微观词汇积累',
+        vocabDesc:      '729个词汇，6个单元，间隔重复记忆系统——带排行榜和学习进度追踪。',
+        vocabCta:       '访问应用',
         contactTitle:   '联系我',
         contactHeading: '欢迎交流',
         contactDesc:    '无论你是探索新资源的同行教师，还是正在学习AP经济学的学生，抑或是为孩子寻找老师的家长，都欢迎和我聊聊。',
@@ -554,6 +583,7 @@ function setLang(lang) {
     document.getElementById('hero-sub').textContent       = c.sub;
     document.getElementById('cta-about').textContent      = c.ctaAbout;
     document.getElementById('cta-graphs').textContent     = c.ctaGraphs;
+    document.getElementById('cta-vocab').textContent      = c.ctaVocab;
     document.getElementById('cta-wechat').textContent     = c.ctaWechat;
     document.getElementById('photo-name-text').innerHTML  = c.photoName;
     document.getElementById('photo-tagline').textContent  = c.photoTagline;
@@ -563,6 +593,10 @@ function setLang(lang) {
     document.getElementById('card-name').textContent      = c.cardName;
     document.getElementById('card-desc').textContent      = c.cardDesc;
     document.getElementById('card-cta').textContent       = c.cardCta;
+    document.getElementById('vocab-title').textContent   = c.vocabTitle;
+    document.getElementById('vocab-name').textContent    = c.vocabName;
+    document.getElementById('vocab-desc').textContent    = c.vocabDesc;
+    document.getElementById('vocab-cta').textContent     = c.vocabCta;
     document.getElementById('contact-title').textContent  = c.contactTitle;
     document.getElementById('contact-heading').textContent= c.contactHeading;
     document.getElementById('contact-desc').textContent   = c.contactDesc;
