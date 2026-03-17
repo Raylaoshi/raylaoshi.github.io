@@ -1572,7 +1572,7 @@ function handleMC(chosen,correct,btn,list,type){
     S.pendingTerm=correct.term;
     document.getElementById('conf-wrap').style.display='block';
     const suspendBtn = document.getElementById('suspend-btn');
-    if(suspendBtn) suspendBtn.style.display = (sr[correct.term]?.correctCount||0) >= 1 ? 'block' : 'none';
+    if(suspendBtn) suspendBtn.style.display = 'block';
   } else {
     S.streak=0; addWeak(correct);
     onWrong();
@@ -1598,7 +1598,7 @@ function doSpell(){
     S.pendingTerm=w.term;
     document.getElementById('conf-wrap').style.display='block';
     const suspendBtn = document.getElementById('suspend-btn');
-    if(suspendBtn) suspendBtn.style.display = (sr[w.term]?.correctCount||0) >= 1 ? 'block' : 'none';
+    if(suspendBtn) suspendBtn.style.display = 'block';
   } else {
     S.streak=0; si.className='spell-input bad'; addWeak(w);
     onWrong();
