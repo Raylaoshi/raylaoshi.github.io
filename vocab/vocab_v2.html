@@ -1117,7 +1117,15 @@ function srSave(){
   histSave();
   progressCol.doc(studentId).set({ sr, emoji: localStorage.getItem('student_emoji') || '', weakWords, sessions: hist });
 }
-function today(){ return new Date().toISOString().slice(0,10); }
+
+function toBeijingDateString(d){
+  const beijing = new Date(d.getTime() + 8 * 60 * 60 * 1000);
+  const yyyy = beijing.getUTCFullYear();
+  const mm = String(beijing.getUTCMonth()+1).padStart(2,'0');
+  const dd = String(beijing.getUTCDate()).padStart(2,'0');
+  return `${yyyy}-${mm}-${dd}`;
+}
+function today(){ return toBeijingDateString(new Date()); }
 function days(d,n){ const x=new Date(d); x.setDate(x.getDate()+n); return x.toISOString().slice(0,10); }
 function srGet(t){ return sr[t]||{interval:0,ease:2.5,nextReview:today(),stage:0}; }
 function isDue(t){ const d=sr[t]; if(!d||d.stage===0)return false; return d.nextReview<=today(); }
@@ -1180,10 +1188,12 @@ let S={
 
 function getMonday(){
   const d = new Date();
-  const day = d.getDay();
+  const beijingDate = toBeijingDateString(d);
+  const temp = new Date(beijingDate + 'T00:00:00+08:00');
+  const day = temp.getDay();
   const diff = (day === 0 ? -6 : 1 - day);
-  d.setDate(d.getDate() + diff);
-  return d.toISOString().slice(0,10);
+  temp.setDate(temp.getDate() + diff);
+  return toBeijingDateString(temp);
 }
 
 async function lbSave(){
@@ -1319,7 +1329,7 @@ function lbRenderWithData(instance, all){
     if(!studentId){
       footerEl.innerHTML = `登录后查看你的排名${arrow}`;
     } else if(myRank > 0){
-      footerEl.innerHTML = `你排第 <strong>${myRank}</strong> 名 · 超越了 <strong>${percentile}%</strong> 的同学${arrow}`;
+      footerEl.innerHTML = `你排第 <strong>${myRank}/${all.length}</strong> 名 · 超越了 <strong>${percentile}%</strong> 的同学${arrow}`;
     } else {
       footerEl.innerHTML = `完成练习后上榜 · 目前共 <strong>${all.length}</strong> 人参与${arrow}`;
     }
@@ -1379,7 +1389,7 @@ function lbToggleExpand(instance){
     if(!studentId){
       footerEl.innerHTML = '登录后查看你的排名 ↓';
     } else if(myRank > 0){
-      footerEl.innerHTML = `你排第 <strong>${myRank}</strong> 名 · 超越了 <strong>${percentile}%</strong> 的同学 ↓`;
+      footerEl.innerHTML = `你排第 <strong>${myRank}/${all.length}</strong> 名 · 超越了 <strong>${percentile}%</strong> 的同学 ↓`;
     } else {
       footerEl.innerHTML = `完成练习后上榜 · 目前共 <strong>${all.length}</strong> 人参与 ↓`;
     }
