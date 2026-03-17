@@ -551,7 +551,7 @@ body {
       <div class="hero-pills">
         <span class="pill">微经 729 词</span>
         <span class="pill">记忆曲线</span>
-        <span class="pill">v2.8</span>
+        <span class="pill">v2.9</span>
 
       </div>
     </div>
@@ -1907,11 +1907,11 @@ function renderReport(filter){
   } else {
     listEl.innerHTML = [...sessions].reverse().map(s => {
       const pctColor = s.pct>=80?'var(--go)':s.pct>=60?'var(--sub)':'var(--err)';
-      const unitsStr = s.units&&s.units.length>0 ? s.units.map(u=>u.replace('Unit ','U')).join(' · ') : '—';
+      const unitsStr = s.units&&s.units.length>0 ? s.units.join(' · ') : '—';
       return `<div class="report-session-row">
         <span class="report-session-date">${s.date.slice(5)}</span>
         <span class="report-session-units">${esc(unitsStr)}</span>
-        <span class="report-session-score">${s.ok||0}/${s.tot||0}</span>
+        <span class="report-session-score" style="color:var(--sub)">${s.ok||0}/${s.tot||0}</span>
         <span class="report-session-pct" style="color:${pctColor}">${s.pct}%</span>
       </div>`;
     }).join('');
