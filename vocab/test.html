@@ -186,7 +186,7 @@ body {
 .prog-nums { font-family: 'DM Mono', monospace; font-size: .65rem; color: var(--muted); white-space: nowrap; }
 .prog-center { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; }
 
-.bar-track { height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; }
+.bar-track { height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; flex:1}
 .bar-fill { height: 100%; background: var(--hi); opacity: .7; border-radius: 2px; transition: width .4s ease; }
 .score-chip { font-family: 'DM Mono', monospace; font-size: .7rem; font-weight: 900;  color: var(--go); flex-shrink: 0; }
 
@@ -1419,8 +1419,8 @@ function selSz(b){ document.querySelectorAll('.sz').forEach(x=>x.classList.remov
 // ── SESSION ───────────────────────────────────────
 function go(){
   const err=document.getElementById('start-err'); let pool;
-  if(S.mode==='review'){ pool=VOCAB.filter(w=>isDue(w.term)); if(!pool.length)return; }
-  else{ if(!S.units.size){ err.style.display='block'; return; } err.style.display='none'; localStorage.setItem(SEL_KEY, JSON.stringify([...S.units]));if(S.mode==='review'){ pool=VOCAB.filter(w=>isDue(w.term) && !sr[w.term]?.suspended); if(!pool.length)return; }}
+  if(S.mode==='review'){ pool=VOCAB.filter(w=>isDue(w.term) && !sr[w.term]?.suspended); if(!pool.length)return; }
+  else{ if(!S.units.size){ err.style.display='block'; return; } err.style.display='none'; localStorage.setItem(SEL_KEY, JSON.stringify([...S.units])); pool=VOCAB.filter(w=>S.units.has(w.unit) && !sr[w.term]?.suspended); }
   const all=VOCAB.filter(w=>S.units.size?S.units.has(w.unit):true);
   const words=shuf(pool).slice(0,Math.min(S.size,pool.length));
   S.queue=words.map(w=>({w,type:pickType(w),pool:all}));
