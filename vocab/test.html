@@ -427,6 +427,37 @@ body {
 .id-stat strong { color:var(--ink); font-weight:700; }
 .id-stat.go strong { color:var(--go); }
 
+/* ═══════════════════════════════════════════════════
+   REPORT SCREEN
+═══════════════════════════════════════════════════ */
+.report-filter-tabs { display:flex; gap:6px; padding:16px 20px 0; }
+.report-tab { flex:1; padding:8px 4px; border-radius:var(--r); border:1px solid var(--line); background:var(--card); color:var(--muted); font-size:.65rem; font-weight:600; cursor:pointer; text-align:center; transition:all .15s; }
+.report-tab.active { background:var(--hi-dim); border-color:var(--hi-bdr); color:var(--hi); }
+.report-hero-card { margin:16px 20px 0; background:var(--card); border:1px solid var(--line); border-radius:var(--r); padding:20px; display:flex; align-items:center; gap:14px; }
+.report-avatar { font-size:2.2rem; line-height:1; flex-shrink:0; }
+.report-name { font-family:'Syne',sans-serif; font-weight:800; font-size:1.1rem; color:var(--ink); letter-spacing:-.02em; }
+.report-date { font-size:.62rem; color:var(--muted); margin-top:3px; font-family:'DM Mono',monospace; }
+.report-stats-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px; margin:10px 20px 0; }
+.report-stat { background:var(--card); border:1px solid var(--line); border-radius:var(--r); padding:12px 8px; text-align:center; }
+.report-stat-num { font-family:'DM Mono',monospace; font-size:1.3rem; font-weight:500; color:var(--ink); line-height:1; }
+.report-stat-lbl { font-size:.58rem; color:var(--muted); margin-top:5px; font-weight:600; letter-spacing:.05em; text-transform:uppercase; }
+.report-chart-wrap { margin:16px 20px 0; background:var(--card); border:1px solid var(--line); border-radius:var(--r); padding:16px; }
+.report-chart-title { font-size:.65rem; font-weight:600; color:var(--muted); letter-spacing:.1em; text-transform:uppercase; margin-bottom:12px; }
+.report-bars { display:flex; align-items:flex-end; gap:4px; height:80px; width:100%; }
+.report-bar-wrap { flex:1; display:flex; flex-direction:column; align-items:center; gap:3px; height:100%; justify-content:flex-end; }
+.report-bar { width:100%; border-radius:3px 3px 0 0; min-height:3px; }
+.report-bar.go { background:var(--go); opacity:.8; }
+.report-bar.mid { background:var(--sub); opacity:.6; }
+.report-bar.low { background:var(--err); opacity:.5; }
+.report-bar-pct { font-family:'DM Mono',monospace; font-size:.5rem; color:var(--muted); }
+.report-chart-empty { text-align:center; color:var(--ghost); font-size:.75rem; padding:20px 0; }
+.report-session-list { margin:10px 20px 0; background:var(--card); border:1px solid var(--line); border-radius:var(--r); overflow:hidden; }
+.report-session-row { display:flex; align-items:center; gap:10px; padding:10px 14px; border-bottom:1px solid var(--line); }
+.report-session-row:last-child { border-bottom:none; }
+.report-session-date { font-family:'DM Mono',monospace; font-size:.62rem; color:var(--muted); flex-shrink:0; width:52px; }
+.report-session-units { font-size:.65rem; color:var(--sub); flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.report-session-score { font-family:'DM Mono',monospace; font-size:.65rem; color:var(--ghost); flex-shrink:0; }
+.report-session-pct { font-family:'DM Mono',monospace; font-size:.72rem; font-weight:700; flex-shrink:0; width:36px; text-align:right; }
 
 </style>
 </head>
@@ -490,8 +521,14 @@ body {
       <button onclick="closeWeakModal()" style="background:none;border:none;color:var(--muted);font-size:1.2rem;cursor:pointer">×</button>
     </div>
     <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:1px solid var(--line)">
-      <span style="font-size:.65rem;color:var(--muted)" id="weak-modal-count"></span>
-      <button onclick="clearLongTermWeak()" style="font-size:.62rem;padding:4px 10px;border-radius:6px;border:1px solid var(--line);background:transparent;color:var(--muted);cursor:pointer">自动清除长期记忆词</button>
+      <div style="display:flex;gap:4px">
+        <button class="weak-tab active" id="wm-tab-errors" onclick="switchWeakModalTab('errors')">错词</button>
+        <button class="weak-tab" id="wm-tab-suspended" onclick="switchWeakModalTab('suspended')">已跳过</button>
+      </div>
+      <div style="display:flex;gap:6px;align-items:center">
+        <span style="font-size:.65rem;color:var(--muted)" id="weak-modal-count"></span>
+        <button id="wm-clear-btn" onclick="clearLongTermWeak()" style="font-size:.62rem;padding:4px 10px;border-radius:6px;border:1px solid var(--line);background:transparent;color:var(--muted);cursor:pointer">自动清除长期记忆词</button>
+      </div>
     </div>
     <div style="overflow-y:auto;flex:1;padding-bottom:16px" id="weak-modal-list"></div>
   </div>
@@ -514,7 +551,7 @@ body {
       <div class="hero-pills">
         <span class="pill">微经 729 词</span>
         <span class="pill">记忆曲线</span>
-        <span class="pill">v2.7</span>
+        <span class="pill">v2.8</span>
 
       </div>
     </div>
@@ -525,6 +562,7 @@ body {
       <div class="id-name" id="id-name"></div>
       <div id="id-mastered"></div>
       <button id="id-weak-btn" onclick="openWeakModal()" style="font-size:.62rem;padding:4px 10px;border-radius:6px;border:1px solid var(--line);background:transparent;color:var(--muted);cursor:pointer;white-space:nowrap;flex-shrink:0">错词本 0</button>
+      <button onclick="showReport()" style="font-size:.62rem;padding:4px 10px;border-radius:6px;border:1px solid var(--line);background:transparent;color:var(--muted);cursor:pointer;white-space:nowrap;flex-shrink:0">学习报告</button>
     </div>
 
     <!-- History Strip -->
@@ -599,6 +637,70 @@ body {
   </div><!-- /.scroll-body -->
 </div><!-- /#screen-setup -->
 
+<!-- ══════════════════ REPORT ══════════════════ -->
+<div class="screen" id="screen-report">
+  <header class="topbar">
+    <a class="brand" href="https://raylaoshi.github.io/"><em>Ray's</em> Economics</a>
+    <nav class="nav">
+      <a href="#" onclick="goBack(); return false;">返回</a>
+    </nav>
+  </header>
+  <div class="scroll-body">
+    <div style="padding:20px 20px 0">
+      <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem;letter-spacing:-.02em;color:var(--ink)">学习报告</div>
+      <div style="font-size:.68rem;color:var(--muted);margin-top:4px">截图发给 Ray老师 ✓</div>
+    </div>
+
+    <div class="report-filter-tabs">
+      <button class="report-tab active" id="rtab-10" onclick="renderReport('10')">近10次</button>
+      <button class="report-tab" id="rtab-30" onclick="renderReport('30')">近30天</button>
+      <button class="report-tab" id="rtab-week" onclick="renderReport('week')">本周</button>
+      <button class="report-tab" id="rtab-all" onclick="renderReport('all')">全部</button>
+    </div>
+
+    <div class="report-hero-card">
+      <div class="report-avatar" id="report-avatar"></div>
+      <div>
+        <div class="report-name" id="report-name"></div>
+        <div class="report-date" id="report-date"></div>
+      </div>
+    </div>
+
+    <div class="rlabel" style="margin-top:16px">间隔重复进度（当前）</div>
+    <div class="sr-trio" style="margin:0 20px">
+      <div class="sr-cell"><div class="sr-num" id="report-sr-new">0</div><div class="sr-lbl">待学习</div></div>
+      <div class="sr-cell"><div class="sr-num" id="report-sr-young">0</div><div class="sr-lbl">短期记忆</div></div>
+      <div class="sr-cell"><div class="sr-num" id="report-sr-mat">0</div><div class="sr-lbl">长期记忆</div></div>
+    </div>
+
+    <div class="rlabel">练习统计</div>
+    <div class="report-stats-row">
+      <div class="report-stat">
+        <div class="report-stat-num" id="report-sessions">0</div>
+        <div class="report-stat-lbl">练习次数</div>
+      </div>
+      <div class="report-stat">
+        <div class="report-stat-num" id="report-avg">0%</div>
+        <div class="report-stat-lbl">平均正确率</div>
+      </div>
+      <div class="report-stat">
+        <div class="report-stat-num" id="report-total-q">0</div>
+        <div class="report-stat-lbl">总答题数</div>
+      </div>
+    </div>
+
+    <div class="report-chart-wrap">
+      <div class="report-chart-title">正确率趋势</div>
+      <div class="report-bars" id="report-chart"></div>
+    </div>
+
+    <div class="rlabel">练习记录</div>
+    <div class="report-session-list" id="report-session-list"></div>
+
+    <div style="height:20px"></div>
+  </div>
+</div>
+
 <!-- ══════════════════ QUIZ ══════════════════ -->
 <div class="screen" id="screen-quiz">
     <header class="topbar">
@@ -658,6 +760,7 @@ body {
           <span class="conf-sub">🔥</span>
         </button>
       </div>
+      <button id="suspend-btn" onclick="suspendWord()" style="display:none;width:100%;margin-top:8px;padding:8px;border-radius:var(--r);border:1px solid var(--line);background:transparent;color:var(--muted);font-size:.68rem;cursor:pointer;">这个词太简单了，不再练习 →</button>
     </div>
 
     <button class="next-btn" id="next-btn" onclick="nextQ()">下一题 →</button>
@@ -767,9 +870,8 @@ const SEL_KEY = 'raylaoshi_sel_v1';
 let hist =[];
 function histLoad(){ try{ hist=JSON.parse(localStorage.getItem(HIST_KEY)||'[]'); }catch{ hist=[]; } }
 function histSave(){ try{ localStorage.setItem(HIST_KEY,JSON.stringify(hist)); }catch{} }
-function histAdd(pct,ok,tot){
-  hist.push({date:today(),pct,ok,tot});
-  if(hist.length>20) hist=hist.slice(-20);
+function histAdd(pct,ok,tot,units){
+  hist.push({date:today(),pct,ok,tot,units:units||[]});
   histSave();
 }
 function histRender(){
@@ -798,7 +900,13 @@ async function srLoad(){
     const res = await progressCol.doc(studentId).get();
     sr = res.data[0]?.sr || {};
     weakWords = res.data[0]?.weakWords || {};
-  } catch(e){ sr={}; weakWords={}; }
+    const cloudSessions = res.data[0]?.sessions;
+    if(cloudSessions && cloudSessions.length > 0){
+      hist = cloudSessions;
+    } else {
+      histLoad();
+    }
+  } catch(e){ sr={}; weakWords={}; histLoad(); }
 }
 
 const ANIMALS = ['🐯','🦁','🐻','🐼','🐨','🦊','🐺','🐸','🐬','🦋','🦅','🦄','🐲','🐙','🦓','🦒','🐘','🦜','🐧','🦩','🐠','🦈','🐝','🦔'];
@@ -981,7 +1089,8 @@ function confirmIdentity(){
 
 function srSave(){
   try{ localStorage.setItem(SR_KEY,JSON.stringify(sr)); }catch{}
-  progressCol.doc(studentId).set({ sr, emoji: localStorage.getItem('student_emoji') || '', weakWords });
+  histSave();
+  progressCol.doc(studentId).set({ sr, emoji: localStorage.getItem('student_emoji') || '', weakWords, sessions: hist });
 }
 function today(){ return new Date().toISOString().slice(0,10); }
 function days(d,n){ const x=new Date(d); x.setDate(x.getDate()+n); return x.toISOString().slice(0,10); }
@@ -994,8 +1103,28 @@ function srUp(t,r){
   else if(r===1){ d.interval=Math.max(1,Math.round(d.interval*1.2)); d.ease=Math.max(1.3,d.ease-.15); d.stage=Math.max(1,d.stage); }
   else if(r===2){ d.interval=d.stage<=1?1:Math.round(d.interval*d.ease); d.interval=Math.max(1,d.interval); d.stage=d.interval>=14?3:d.interval>=3?2:1; }
   else{ d.interval=Math.max(4,Math.round(d.interval*d.ease*1.3)); d.ease=Math.min(3.5,d.ease+.1); d.stage=d.interval>=14?3:2; }
+  if(r!==0){ d.correctCount = (d.correctCount||0) + 1; }
   d.nextReview=days(today(),d.interval); sr[t]=d; srSave(); return d;
 }
+
+function suspendWord(){
+  if(!S.pendingTerm) return;
+  const t = S.pendingTerm;
+  let d = srGet(t);
+  d.stage = 3;
+  d.interval = 365;
+  d.nextReview = days(today(), 365);
+  d.suspended = true;
+  sr[t] = d;
+  srSave();
+  S.pendingTerm = null;
+  document.getElementById('conf-wrap').style.display = 'none';
+  document.getElementById('suspend-btn').style.display = 'none';
+  document.querySelectorAll('.conf-btn').forEach(b => b.style.opacity = '');
+  toast('已跳过，专注于更难的词！', 'enc-good');
+  nextQ();
+}
+
 function srChipHtml(t){
   const d=sr[t];
   if(!d||d.stage===0)return '<span class="sr-chip sc-new">待学习</span>';
@@ -1202,7 +1331,8 @@ function weakWordsMerge(){
 
 // ── SETUP INIT ────────────────────────────────────
 async function init(){
-  await srLoad(); histLoad(); weakWordsAutoRemove();
+  await srLoad(); weakWordsAutoRemove();
+
   try{
     const saved = JSON.parse(localStorage.getItem(SEL_KEY));
     if(saved && Array.isArray(saved) && saved.length > 0) S.units = new Set(saved);
@@ -1290,7 +1420,7 @@ function selSz(b){ document.querySelectorAll('.sz').forEach(x=>x.classList.remov
 function go(){
   const err=document.getElementById('start-err'); let pool;
   if(S.mode==='review'){ pool=VOCAB.filter(w=>isDue(w.term)); if(!pool.length)return; }
-  else{ if(!S.units.size){ err.style.display='block'; return; } err.style.display='none'; localStorage.setItem(SEL_KEY, JSON.stringify([...S.units])); pool=VOCAB.filter(w=>S.units.has(w.unit)); }
+  else{ if(!S.units.size){ err.style.display='block'; return; } err.style.display='none'; localStorage.setItem(SEL_KEY, JSON.stringify([...S.units]));if(S.mode==='review'){ pool=VOCAB.filter(w=>isDue(w.term) && !sr[w.term]?.suspended); if(!pool.length)return; }}
   const all=VOCAB.filter(w=>S.units.size?S.units.has(w.unit):true);
   const words=shuf(pool).slice(0,Math.min(S.size,pool.length));
   S.queue=words.map(w=>({w,type:pickType(w),pool:all}));
@@ -1347,6 +1477,8 @@ function renderQ(){
   document.getElementById('feedback').style.display='none';
   document.getElementById('next-btn').classList.remove('on');
   document.getElementById('conf-wrap').style.display='none';
+  const suspendBtn = document.getElementById('suspend-btn');
+  if(suspendBtn) suspendBtn.style.display = 'none';
   document.querySelector('.cf-bad').innerHTML='<span class="conf-txt">模糊</span><span class="conf-sub">😳</span>';
   document.querySelector('.cf-ok').innerHTML='<span class="conf-txt">记得</span><span class="conf-sub">👌</span>';
   document.querySelector('.cf-ez').innerHTML='<span class="conf-txt">熟练</span><span class="conf-sub">🔥</span>';
@@ -1419,6 +1551,8 @@ function handleMC(chosen,correct,btn,list,type){
     onCorrect(S.streak);
     S.pendingTerm=correct.term;
     document.getElementById('conf-wrap').style.display='block';
+    const suspendBtn = document.getElementById('suspend-btn');
+    if(suspendBtn) suspendBtn.style.display = (sr[correct.term]?.correctCount||0) >= 2 ? 'block' : 'none';
   } else {
     S.streak=0; addWeak(correct);
     onWrong();
@@ -1443,6 +1577,8 @@ function doSpell(){
     showFb(true,r.close?('接受！标准写法：'+exp):null);
     S.pendingTerm=w.term;
     document.getElementById('conf-wrap').style.display='block';
+    const suspendBtn = document.getElementById('suspend-btn');
+    if(suspendBtn) suspendBtn.style.display = (sr[w.term]?.correctCount||0) >= 2 ? 'block' : 'none';
   } else {
     S.streak=0; si.className='spell-input bad'; addWeak(w);
     onWrong();
@@ -1527,7 +1663,7 @@ function onWrong(){
 
 function showResults(){
   const pct=S.score.tot>0?Math.round(S.score.ok/S.score.tot*100):0;
-  histAdd(pct, S.score.ok, S.score.tot);
+  histAdd(pct, S.score.ok, S.score.tot, [...S.units]);
   weakWordsMerge();
   lbSave().then(()=>lbRender('lb-list-results','lb-footer-results'));
   document.getElementById('rn').textContent=pct;
@@ -1625,6 +1761,9 @@ function removeWeakWord(term){
 
 function openWeakModal(){
   document.getElementById('weak-overlay').classList.remove('hidden');
+  document.getElementById('wm-tab-errors').classList.add('active');
+  document.getElementById('wm-tab-suspended').classList.remove('active');
+  document.getElementById('wm-clear-btn').style.display = '';
   renderWeakModal();
 }
 
@@ -1662,10 +1801,123 @@ function clearLongTermWeak(){
   renderIdStrip();
 }
 
+function switchWeakModalTab(tab){
+  document.getElementById('wm-tab-errors').classList.toggle('active', tab==='errors');
+  document.getElementById('wm-tab-suspended').classList.toggle('active', tab==='suspended');
+  document.getElementById('wm-clear-btn').style.display = tab==='errors' ? '' : 'none';
+  if(tab==='errors') renderWeakModal();
+  else renderSuspendedModal();
+}
+
+function renderSuspendedModal(){
+  const entries = Object.entries(sr).filter(([term, d]) => d.suspended);
+  document.getElementById('weak-modal-count').textContent = `共 ${entries.length} 个已跳过`;
+  const list = document.getElementById('weak-modal-list');
+  list.innerHTML = '';
+  if(!entries.length){ list.innerHTML='<div class="wempty">暂无已跳过的词</div>'; return; }
+  entries.forEach(([term]) => {
+    const w = VOCAB.find(v => v.term === term);
+    if(!w) return;
+    const d = document.createElement('div'); d.className='witem';
+    d.style.padding = '12px 20px';
+    d.innerHTML=`<div><div class="wterm">${esc(w.term)}</div><div class="wzh">${esc(w.zh)}</div>${w.def&&w.def.length>10?`<div class="wdef">${esc(w.def)}</div>`:''}</div>
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+      <button style="font-size:.55rem;padding:2px 6px;border-radius:4px;border:1px solid var(--line);background:transparent;color:var(--muted);cursor:pointer" onclick="unsuspendWord('${esc(term)}')">恢复</button>
+    </div>`;
+    list.appendChild(d);
+  });
+}
+
+function unsuspendWord(term){
+  if(!sr[term]) return;
+  delete sr[term].suspended;
+  sr[term].stage = 0;
+  sr[term].interval = 0;
+  sr[term].nextReview = today();
+  srSave();
+  renderSuspendedModal();
+  renderIdStrip();
+}
+
 function replaySession(){
   S.queue=[]; S.qi=0; S.score={ok:0,tot:0}; S.weak={}; S.pendingTerm=null; S.streak=0; S.maxStreak=0;
   go();
 }
+
+// ── REPORT SCREEN ─────────────────────────────────
+function showReport(){
+  const id = localStorage.getItem('student_id');
+  const emoji = localStorage.getItem('student_emoji');
+  document.getElementById('report-avatar').textContent = emoji || '🐾';
+  document.getElementById('report-name').textContent = id || '';
+  document.getElementById('report-date').textContent = '导出时间：' + today();
+  const st = srStats();
+  document.getElementById('report-sr-new').textContent = st.nw;
+  document.getElementById('report-sr-young').textContent = st.yo;
+  document.getElementById('report-sr-mat').textContent = st.ma;
+  ['10','30','week','all'].forEach(t => {
+    document.getElementById(`rtab-${t}`).classList.toggle('active', t === '10');
+  });
+  renderReport('10');
+  show('screen-report');
+}
+
+function getFilteredSessions(filter){
+  if(filter === '10') return hist.slice(-10);
+  if(filter === 'all') return hist;
+  if(filter === '30'){
+    const cutoff = new Date(); cutoff.setDate(cutoff.getDate()-30);
+    const cutStr = cutoff.toISOString().slice(0,10);
+    return hist.filter(s => s.date >= cutStr);
+  }
+  if(filter === 'week'){
+    return hist.filter(s => s.date >= getMonday());
+  }
+  return hist;
+}
+
+function renderReport(filter){
+  ['10','30','week','all'].forEach(t => {
+    document.getElementById(`rtab-${t}`).classList.toggle('active', t === filter);
+  });
+  const sessions = getFilteredSessions(filter);
+  const count = sessions.length;
+  const avg = count > 0 ? Math.round(sessions.reduce((a,s) => a+s.pct, 0) / count) : 0;
+  const totalQ = sessions.reduce((a,s) => a+(s.tot||0), 0);
+  document.getElementById('report-sessions').textContent = count;
+  document.getElementById('report-avg').textContent = avg + '%';
+  document.getElementById('report-total-q').textContent = totalQ;
+
+  const chartEl = document.getElementById('report-chart');
+  if(!count){
+    chartEl.innerHTML = '<div class="report-chart-empty">此时间段内暂无练习记录</div>';
+  } else {
+    chartEl.innerHTML = sessions.slice(-20).map(s => {
+      const cls = s.pct>=80?'go':s.pct>=60?'mid':'low';
+      return `<div class="report-bar-wrap">
+        <div class="report-bar-pct">${s.pct}%</div>
+        <div class="report-bar ${cls}" style="height:${Math.max(4,s.pct)}%"></div>
+      </div>`;
+    }).join('');
+  }
+
+  const listEl = document.getElementById('report-session-list');
+  if(!count){
+    listEl.innerHTML = '<div class="wempty">暂无记录</div>';
+  } else {
+    listEl.innerHTML = [...sessions].reverse().map(s => {
+      const pctColor = s.pct>=80?'var(--go)':s.pct>=60?'var(--sub)':'var(--err)';
+      const unitsStr = s.units&&s.units.length>0 ? s.units.map(u=>u.replace('Unit ','U')).join(' · ') : '—';
+      return `<div class="report-session-row">
+        <span class="report-session-date">${s.date.slice(5)}</span>
+        <span class="report-session-units">${esc(unitsStr)}</span>
+        <span class="report-session-score">${s.ok||0}/${s.tot||0}</span>
+        <span class="report-session-pct" style="color:${pctColor}">${s.pct}%</span>
+      </div>`;
+    }).join('');
+  }
+}
+
 
 // ── UTILS ─────────────────────────────────────────
 function shuf(a){ const r=[...a]; for(let i=r.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [r[i],r[j]]=[r[j],r[i]]; } return r; }
