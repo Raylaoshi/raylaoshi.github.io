@@ -26,8 +26,12 @@
 
   --ink:     #f0eff0;
   --sub:     #96959e;
-  --muted:   #575660;
-  --ghost:   #363540;
+  --muted:   #6e6d78;
+  --ghost:   #4a4855;
+  --amber:   #e8a030;
+  --amber-glow: rgba(232,160,48,0.12);
+  --blue:    #5b8fff;
+  --blue-glow: rgba(91,143,255,0.12);
 
   /* Selection accent — brighter white, clearly visible */
   --hi:      #ffffff;
@@ -197,9 +201,9 @@ body {
   margin-bottom: 12px;
 }
 .sr-chip { font-family: var(--zh), sans-serif; font-size: .62rem; font-weight: 700; }
-.sc-new {  color: var(--muted);}
-.sc-learn { color: var(--hi); }
-.sc-young {  color: var(--ink);  }
+.sc-new   { color: var(--amber); }
+.sc-learn { color: var(--blue); }
+.sc-young { color: var(--blue); }
 .sc-done  { color: var(--go); }
 
 /* Main Question */
@@ -296,6 +300,9 @@ body {
 .sr-cell { padding: 14px 8px; text-align: center; border-right: 1px solid var(--line); }
 .sr-cell:last-child { border-right: none; }
 .sr-num { font-family: 'DM Mono', monospace; font-weight: 500; font-size: 1.4rem; line-height: 1; color: var(--ink); }
+.sr-num.sr-new   { color: var(--amber); }
+.sr-num.sr-young { color: var(--blue); }
+.sr-num.sr-mat   { color: var(--go); }
 .sr-lbl { font-size: .6rem; font-weight: 600; font-family: var(--zh), 'Microsoft YaHei UI'; color: var(--muted); margin-top: 6px; letter-spacing: .05em; text-transform: uppercase; }
 
 .rlabel { font-size: .65rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin: 24px 20px 10px; }
@@ -668,9 +675,9 @@ body {
 
     <div class="rlabel" style="margin-top:16px">间隔重复进度（当前）</div>
     <div class="sr-trio" style="margin:0 20px">
-      <div class="sr-cell"><div class="sr-num" id="report-sr-new">0</div><div class="sr-lbl">待学习</div></div>
-      <div class="sr-cell"><div class="sr-num" id="report-sr-young">0</div><div class="sr-lbl">短期记忆</div></div>
-      <div class="sr-cell"><div class="sr-num" id="report-sr-mat">0</div><div class="sr-lbl">长期记忆</div></div>
+      <div class="sr-cell"><div class="sr-num sr-new" id="report-sr-new">0</div><div class="sr-lbl">待学习</div></div>
+      <div class="sr-cell"><div class="sr-num sr-young" id="report-sr-young">0</div><div class="sr-lbl">短期记忆</div></div>
+      <div class="sr-cell"><div class="sr-num sr-mat" id="report-sr-mat">0</div><div class="sr-lbl">长期记忆</div></div>
     </div>
 
     <div class="rlabel">练习统计</div>
@@ -806,9 +813,9 @@ body {
 
     <div class="rlabel">间隔重复进度</div>
     <div class="sr-trio">
-      <div class="sr-cell"><div class="sr-num" id="r-new">0</div><div class="sr-lbl">待学习</div></div>
-      <div class="sr-cell"><div class="sr-num" id="r-young">0</div><div class="sr-lbl">短期记忆</div></div>
-      <div class="sr-cell"><div class="sr-num" id="r-mat">0</div><div class="sr-lbl">长期记忆</div></div>
+      <div class="sr-cell"><div class="sr-num sr-new" id="r-new">0</div><div class="sr-lbl">待学习</div></div>
+      <div class="sr-cell"><div class="sr-num sr-young" id="r-young">0</div><div class="sr-lbl">短期记忆</div></div>
+      <div class="sr-cell"><div class="sr-num sr-mat" id="r-mat">0</div><div class="sr-lbl">长期记忆</div></div>
     </div>
 
     <div class="rlabel">排行榜</div>
@@ -1302,11 +1309,11 @@ function renderIdStrip(){
   document.getElementById('id-name').textContent = id;
   document.getElementById('id-mastered').innerHTML = `
     <div class="id-stats">
-      <span class="id-stat"><strong style="font-family:'DM Mono',monospace">${st.nw}</strong>  待学习</span>
+      <span class="id-stat"><strong style="font-family:'DM Mono',monospace;color:var(--amber)">${st.nw}</strong> 待学习</span>
       <span class="id-stat">·</span>
-      <span class="id-stat"><strong style="font-family:'DM Mono',monospace">${st.yo}</strong>  短期</span>
+      <span class="id-stat"><strong style="font-family:'DM Mono',monospace;color:var(--blue)">${st.yo}</strong> 短期</span>
       <span class="id-stat">·</span>
-      <span class="id-stat go"><strong style="font-family:'DM Mono',monospace">${st.ma}</strong>  长期</span>
+      <span class="id-stat"><strong style="font-family:'DM Mono',monospace;color:var(--go)">${st.ma}</strong> 长期</span>
     </div>`;
   const weakCount = Object.keys(weakWords).length;
   const weakBtn = document.getElementById('id-weak-btn');
@@ -1368,10 +1375,10 @@ function buildUnits(){
     const isSel = S.units.has(u);
     
     // Smart label hierarchy
-    let statusStr = '待学习';
-    if (due > 0) statusStr = `${due} 循环复习`;
-    else if (mat > 0) statusStr = `${mat} 长期记忆`;
-    else if (prog > 0) statusStr = `${prog} 短期记忆`;
+    let statusStr = `<span style="color:var(--amber)">待学习</span>`;
+    if (due > 0) statusStr = `<span style="color:var(--blue)">${due} 循环复习</span>`;
+    else if (mat > 0) statusStr = `<span style="color:var(--go)">${mat} 长期记忆</span>`;
+    else if (prog > 0) statusStr = `<span style="color:var(--blue)">${prog} 短期记忆</span>`;
 
     const c = document.createElement('div');
     c.className = 'unit' + (isSel ? ' sel' : '');
