@@ -141,7 +141,7 @@ body {
 .bar.mid { background: var(--sub); opacity: .5; }
 .bar.low { background: var(--muted); opacity: .4; }
 .hist-empty { width: 100%; text-align: center; font-size: var(--fs-xs); color: var(--ghost); align-self: center; }
-.hist-avg { font-size: var(--fs-xs); color: var(--ghost); margin-top: 5px; }
+.hist-avg { font-size: var(--fs-xs); color: var(--ghost); margin-top: 5px; display:flex; justify-content:space-between; align-items:center; }
 .hist-avg strong { color: var(--sub); }
 
 /* Mode */
@@ -577,20 +577,24 @@ body {
       <div class="id-avatar" id="id-avatar"></div>
       <div class="id-name" id="id-name"></div>
       <div id="id-mastered"></div>
-      <button id="id-weak-btn" onclick="openWeakModal()" style="font-size:var(--fs-xs);padding:4px 10px;border-radius:6px;border:1px solid var(--line);background:transparent;color:var(--muted);cursor:pointer;white-space:nowrap;flex-shrink:0">错词本 0</button>
-      <button onclick="showReport()" style="font-size: var(--fs-xs);padding:4px 10px;border-radius:6px;border:1px solid var(--line);background:transparent;color:var(--muted);cursor:pointer;white-space:nowrap;flex-shrink:0">学习报告</button>
     </div>
 
     <!-- History Strip -->
     <div class="hist">
       <div class="hist-top">
         <span class="hist-label">练习记录</span>
-        <span class="hist-count"><span id="hist-total">0</span> 次</span>
+        <div style="display:flex;gap:6px">
+          <button id="id-weak-btn" onclick="openWeakModal()" style="font-size:var(--fs-xs);padding:4px 10px;border-radius:6px;border:1px solid var(--line);background:transparent;color:var(--muted);cursor:pointer;white-space:nowrap;">错词本 0</button>
+          <button onclick="showReport()" style="font-size:var(--fs-xs);padding:4px 10px;border-radius:6px;border:1px solid var(--line);background:transparent;color:var(--muted);cursor:pointer;white-space:nowrap;">学习报告</button>
+        </div>
       </div>
       <div class="bars" id="hist-chart">
         <div class="hist-empty">暂无记录，完成第一次练习后显示</div>
       </div>
-      <div class="hist-avg" id="hist-avg-line" style="display:none">近期平均正确率 <strong id="hist-avg-text"></strong></div>
+      <div class="hist-avg" id="hist-avg-line" style="display:none">
+        <span>共 <strong id="hist-total">0</strong> 次</span>
+        <span>近期平均正确率 <strong id="hist-avg-text"></strong></span>
+      </div>
     </div>
 
     <!-- Leaderboard -->
@@ -776,7 +780,7 @@ body {
           <span class="conf-sub">🔥</span>
         </button>
       </div>
-      <button id="suspend-btn" onclick="suspendWord()" style="display:none;width:100%;margin-top:8px;padding:8px;border-radius:var(--r);border:1px solid var(--line);background:transparent;color:var(--muted);font-size: var(--fs-xs);cursor:pointer;">这个词太简单了，不再练习 →</button>
+      <button id="suspend-btn" onclick="suspendWord()" style="display:none;width:100%;margin-top:8px;padding:8px;border-radius:var(--r);border:1px solid var(--line);background:transparent;color:var(--muted);font-size: var(--fs-xs);cursor:pointer;">已掌握，跳过此词 ✓</button>
     </div>
 
     <button class="next-btn" id="next-btn" onclick="nextQ()">下一题 →</button>
@@ -892,10 +896,10 @@ function histAdd(pct,ok,tot,units){
 }
 function histRender(){
   const n=hist.length;
-  document.getElementById('hist-total').textContent=n;
   const chart=document.getElementById('hist-chart');
   const avgLine=document.getElementById('hist-avg-line');
   if(!n){ chart.innerHTML='<div class="hist-empty">暂无记录，完成第一次练习后显示</div>'; avgLine.style.display='none'; return; }
+  document.getElementById('hist-total').textContent=n;
   const shown=hist.slice(-15);
   const avg=Math.round(shown.reduce((a,s)=>a+s.pct,0)/shown.length);
   chart.innerHTML=shown.map(s=>{
@@ -1568,7 +1572,7 @@ function handleMC(chosen,correct,btn,list,type){
     S.pendingTerm=correct.term;
     document.getElementById('conf-wrap').style.display='block';
     const suspendBtn = document.getElementById('suspend-btn');
-    if(suspendBtn) suspendBtn.style.display = (sr[correct.term]?.correctCount||0) >= 2 ? 'block' : 'none';
+    if(suspendBtn) suspendBtn.style.display = (sr[correct.term]?.correctCount||0) >= 1 ? 'block' : 'none';
   } else {
     S.streak=0; addWeak(correct);
     onWrong();
@@ -1594,7 +1598,7 @@ function doSpell(){
     S.pendingTerm=w.term;
     document.getElementById('conf-wrap').style.display='block';
     const suspendBtn = document.getElementById('suspend-btn');
-    if(suspendBtn) suspendBtn.style.display = (sr[w.term]?.correctCount||0) >= 2 ? 'block' : 'none';
+    if(suspendBtn) suspendBtn.style.display = (sr[w.term]?.correctCount||0) >= 1 ? 'block' : 'none';
   } else {
     S.streak=0; si.className='spell-input bad'; addWeak(w);
     onWrong();
@@ -1706,6 +1710,7 @@ function showResults(){
     msg.textContent='别灰心！每次练习都是积累！';
   }
 
+  document.getElementById('rb-correct').textContent=S.score.ok;
   document.getElementById('rb-streak').textContent=S.maxStreak||0;
   const st=srStats();
   document.getElementById('rb-mastered').textContent=st.ma;
