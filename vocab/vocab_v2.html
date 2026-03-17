@@ -428,7 +428,9 @@ body {
 .lb-name.lb-me-name { color: var(--hi); }
 .lb-score { font-family: 'DM Mono', monospace; font-size: var(--fs-xs); color: var(--go); font-weight: 700; flex-shrink: 0; }
 .lb-score-lbl { font-size: var(--fs-xs); color: var(--muted); margin-left: 2px; }
-.lb-footer { padding: 10px 14px; background: var(--surface); font-size: var(--fs-xs); color: var(--sub); text-align: center; }
+.lb-footer { padding: 10px 14px; background: var(--surface); font-size: var(--fs-xs); color: var(--sub); text-align: center; transition: color .15s; }
+.lb-footer.expandable { cursor: pointer; }
+.lb-footer.expandable:active { color: var(--ink); }
 .lb-footer strong { color: var(--ink); }
 .lb-empty { padding: 20px; text-align: center; font-size: var(--fs-xs); color: var(--ghost); }
 .lb-loading { padding: 16px; text-align: center; font-size: var(--fs-xs); color: var(--muted); }
@@ -566,11 +568,11 @@ body {
   <div class="scroll-body">
     
     <div class="hero">
-      <div class="hero-title">词汇积累</div>
+      <div class="hero-title">背了就有</div>
       <div class="hero-pills">
-        <span class="pill">微经 729 词</span>
+        <span class="pill">微经词 700+</span>
         <span class="pill">记忆曲线</span>
-        <span class="pill">v2.9</span>
+        <span class="pill">v2.9.1</span>
 
       </div>
     </div>
@@ -588,7 +590,7 @@ body {
         <span class="hist-label">练习记录</span>
         <div style="display:flex;gap:6px">
           <button id="id-weak-btn" onclick="openWeakModal()" style="font-size:var(--fs-xs); font-weight:600; padding:4px 10px;border-radius:6px;border:1px solid var(--line);background:transparent;color:var(--muted);cursor:pointer;white-space:nowrap;">错词本 0</button>
-          <button onclick="showReport()" style="font-size:var(--fs-xs); font-weight:600;padding:4px 10px;border-radius:6px;border:1px solid var(--line);background:transparent;color:var(--muted);cursor:pointer;white-space:nowrap;">学习报告</button>
+          <button onclick="showReport()" style="font-size:var(--fs-xs); font-weight:600;padding:4px 10px;border-radius:6px;border:1px solid var(--line);background:transparent;color:var(--muted);cursor:pointer;white-space:nowrap;">学习记录</button>
         </div>
       </div>
       <div class="bars" id="hist-chart">
@@ -606,7 +608,6 @@ body {
         <div class="lb-hdr">
           <div class="lb-hdr-top">
             <span class="lb-hdr-title">排行榜</span>
-            <span class="lb-hdr-count" id="lb-count-setup">加载中…</span>
           </div>
           <div class="lb-tabs">
             <button class="lb-tab active" id="lb-tab-total-setup" onclick="lbSwitchTab('setup','total')">总榜</button>
@@ -670,7 +671,7 @@ body {
   </header>
   <div class="scroll-body">
     <div style="padding:20px 20px 0">
-      <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem;letter-spacing:-.02em;color:var(--ink)">学习报告</div>
+      <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem;letter-spacing:-.02em;color:var(--ink)">学习记录</div>
       <div style="font-size:var(--fs-xs);color:var(--muted);margin-top:4px">截图发给 Ray老师 ✓</div>
     </div>
 
@@ -840,7 +841,6 @@ body {
         <div class="lb-hdr">
           <div class="lb-hdr-top">
             <span class="lb-hdr-title">排行榜</span>
-            <span class="lb-hdr-count" id="lb-count-results">加载中…</span>
           </div>
           <div class="lb-tabs">
             <button class="lb-tab active" id="lb-tab-total-results" onclick="lbSwitchTab('results','total')">总榜</button>
@@ -1253,8 +1253,6 @@ function lbRenderWithData(instance, all){
   const countEl = document.getElementById(`lb-count-${instance}`);
   if(!listEl) return;
 
-  if(countEl) countEl.textContent = `${all.length} 位同学参与`;
-
   if(!all.length){
     listEl.innerHTML = '<div class="lb-empty">还没有同学上榜，快来第一个！</div>';
     if(footerEl) footerEl.style.display = 'none';
@@ -1295,23 +1293,93 @@ function lbRenderWithData(instance, all){
     const score = tab === 'week'
       ? (d.weekStart === currentWeekStart ? (d.weekCorrect||0) : 0)
       : (d.totalCorrect||0);
-    const scoreLbl = ' 题';
+    const scoreLbl = '题';
     return `<div class="lb-row${isMe?' lb-me':''}">
       <span class="lb-rank ${rankCls(i)}">${i+1}</span>
       <span class="lb-emoji">${esc(d.emoji||'🐾')}</span>
       <span class="lb-name${isMe?' lb-me-name':''}">${esc(d.name)}</span>
-      <span class="lb-score">${score}<span class="lb-score-lbl">${scoreLbl}</span></span>
+      <span class="lb-score">${score}</span><span class="lb-score-lbl">${scoreLbl}</span>
     </div>`;
   }).join('');
 
   if(footerEl){
     footerEl.style.display = '';
-    if(!studentId){
-      footerEl.innerHTML = '登录后查看你的排名';
-    } else if(myRank > 0){
-      footerEl.innerHTML = `你排第 <strong>${myRank}</strong> 名 · 超越了 <strong>${percentile}%</strong> 的同学`;
+    footerEl.dataset.expanded = 'false';
+    const hasMore = sorted.length > 10;
+    if(hasMore){
+      footerEl.classList.add('expandable');
+      footerEl.onclick = () => lbToggleExpand(instance);
     } else {
-      footerEl.innerHTML = `完成练习后上榜 · 目前共 <strong>${all.length}</strong> 人参与`;
+      footerEl.classList.remove('expandable');
+      footerEl.onclick = null;
+    }
+    const arrow = hasMore ? ' ↓' : '';
+    if(!studentId){
+      footerEl.innerHTML = `登录后查看你的排名${arrow}`;
+    } else if(myRank > 0){
+      footerEl.innerHTML = `你排第 <strong>${myRank}</strong> 名 · 超越了 <strong>${percentile}%</strong> 的同学${arrow}`;
+    } else {
+      footerEl.innerHTML = `完成练习后上榜 · 目前共 <strong>${all.length}</strong> 人参与${arrow}`;
+    }
+  }
+}
+
+function lbToggleExpand(instance){
+  const footerEl = document.getElementById(`lb-footer-${instance}`);
+  const listEl = document.getElementById(`lb-list-${instance}`);
+  const all = window._lbCache || [];
+  const tab = _lbTab[instance] || 'total';
+  const currentWeekStart = getMonday();
+
+  const sorted = [...all].sort((a,b) => {
+    if(tab === 'week'){
+      const aW = a.weekStart === currentWeekStart ? (a.weekCorrect||0) : 0;
+      const bW = b.weekStart === currentWeekStart ? (b.weekCorrect||0) : 0;
+      return bW - aW;
+    }
+    return (b.totalCorrect||0) - (a.totalCorrect||0);
+  });
+
+  const expanded = footerEl?.dataset.expanded === 'true';
+  const nowExpanded = !expanded;
+  footerEl.dataset.expanded = nowExpanded ? 'true' : 'false';
+  const rankCls = i => i===0?'gold':i===1?'silver':i===2?'bronze':'';
+  const toShow = nowExpanded ? sorted : sorted.slice(0, 10);
+
+  listEl.innerHTML = toShow.map((d,i) => {
+    const isMe = d.name === studentId;
+    const score = tab === 'week'
+      ? (d.weekStart === currentWeekStart ? (d.weekCorrect||0) : 0)
+      : (d.totalCorrect||0);
+    return `<div class="lb-row${isMe?' lb-me':''}">
+      <span class="lb-rank ${rankCls(i)}">${i+1}</span>
+      <span class="lb-emoji">${esc(d.emoji||'🐾')}</span>
+      <span class="lb-name${isMe?' lb-me-name':''}">${esc(d.name)}</span>
+      <span class="lb-score">${score}<span class="lb-score-lbl"> 题</span></span>
+    </div>`;
+  }).join('');
+
+  if(nowExpanded){
+    footerEl.innerHTML = '收起 ↑';
+  } else {
+    const myRank = sorted.findIndex(d => d.name === studentId) + 1;
+    const myScoreObj = all.find(d => d.name === studentId);
+    const myScore = tab === 'week'
+      ? (myScoreObj?.weekStart === currentWeekStart ? (myScoreObj?.weekCorrect||0) : 0)
+      : (myScoreObj?.totalCorrect||0);
+    const below = sorted.filter(d => {
+      const s = tab === 'week'
+        ? (d.weekStart === currentWeekStart ? (d.weekCorrect||0) : 0)
+        : (d.totalCorrect||0);
+      return s < myScore;
+    }).length;
+    const percentile = sorted.length > 1 ? Math.min(100, Math.round(below/(sorted.length-1)*100)) : 100;
+    if(!studentId){
+      footerEl.innerHTML = '登录后查看你的排名 ↓';
+    } else if(myRank > 0){
+      footerEl.innerHTML = `你排第 <strong>${myRank}</strong> 名 · 超越了 <strong>${percentile}%</strong> 的同学 ↓`;
+    } else {
+      footerEl.innerHTML = `完成练习后上榜 · 目前共 <strong>${all.length}</strong> 人参与 ↓`;
     }
   }
 }
