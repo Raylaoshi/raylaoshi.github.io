@@ -140,7 +140,7 @@ body {
 .hist-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
 .hist-label { font-size: var(--fs-xs); font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
 .hist-count { font-size: var(--fs-xs); color: var(--ghost); }
-.bars { display: flex; align-items: flex-end; gap: 3px; height: 32px; width: 100%; }
+.bars { width: 100%; min-height: 40px; }
 .bar { flex: 1; border-radius: 2px 2px 0 0; min-height: 3px; transition: height .3s; }
 .bar.go  { background: var(--go); opacity: .7; }
 .bar.mid { background: var(--sub); opacity: .5; }
@@ -148,6 +148,8 @@ body {
 .hist-empty { width: 100%; text-align: center; font-size: var(--fs-xs); color: var(--ghost); align-self: center; }
 .hist-avg { font-size: var(--fs-xs); color: var(--ghost); margin-top: 5px; display:flex; justify-content:space-between; align-items:center; }
 .hist-avg strong { color: var(--sub); }
+.hist-btn { font-size:var(--fs-xs); font-weight:600; padding:4px 10px; border-radius:6px; border:1px solid var(--line); background:transparent; color:var(--muted); cursor:pointer; white-space:nowrap; transition:color .15s; }
+.hist-btn:active { color:var(--ink); }
 
 /* Mode */
 .mode-row { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
@@ -201,7 +203,7 @@ body {
 .quiz-prog { flex-shrink: 0; padding: 10px 16px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; margin: 12px 16px 0; }
 .qprog-row { display: flex; align-items: center; gap: 12px; }
 .prog-center { flex: 1; min-width: 0; }
-.prog-nums { font-family: 'DM Mono', monospace; font-size: var(--fs-xs); color: var(--muted); white-space: nowrap; }
+.prog-nums { font-family: 'Outfit', sans-serif; font-weight: 500; font-size: var(--fs-xs); color: var(--muted); white-space: nowrap; }
 .prog-center { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; }
 
 .bar-track { height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; flex:1}
@@ -300,7 +302,7 @@ body {
 .res-pct { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(4rem, 18vw, 6rem); line-height: 1; letter-spacing: -.03em; }
 .res-pct span { font-size: .5em; opacity: .5; padding-left: 2px; }
 .res-msg { font-size: var(--fs-base); font-weight: 600; margin-top: 12px; color: var(--ink); }
-.res-sub-detail { font-family: 'DM Mono', monospace; font-size: var(--fs-xs); color: var(--ghost); margin-top: 6px; }
+.res-sub-detail { font-family: 'Outfit', sans-serif; font-weight: 600; font-size: var(--fs-xs); color: var(--ghost); margin-top: 6px; }
 
 
 
@@ -313,7 +315,7 @@ body {
 .sr-trio { display: grid; grid-template-columns: 1fr 1fr 1fr; background: var(--card); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; margin: 16px 20px 0; }
 .sr-cell { padding: 14px 8px; text-align: center; border-right: 1px solid var(--line); }
 .sr-cell:last-child { border-right: none; }
-.sr-num { font-family: 'DM Mono', monospace; font-weight: 500; font-size: var(--fs-xl); line-height: 1; color: var(--ink); }
+.sr-num { font-family: 'Outfit', sans-serif; font-weight: 600; font-size: var(--fs-xl); line-height: 1; color: var(--ink); }
 .sr-num.sr-new   { color: var(--amber); }
 .sr-num.sr-young { color: var(--blue); }
 .sr-num.sr-mat   { color: var(--go); }
@@ -413,7 +415,6 @@ body {
 .lb-hdr { padding: 10px 14px; border-bottom: 1px solid var(--line); }
 .lb-hdr-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
 .lb-hdr-title { font-size: var(--fs-xs); font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
-.lb-hdr-count { font-size: var(--fs-xs); color: var(--ghost); }
 .lb-tabs { display: flex; gap: 4px; }
 .lb-tab { flex: 1; padding: 6px 4px; border-radius: 6px; border: 1px solid var(--line); background: transparent; color: var(--muted); font-size: var(--fs-xs); font-weight: 600; cursor: pointer; text-align: center; transition: all .15s; }
 .lb-tab.active { background: var(--hi-dim); border-color: var(--hi-bdr); color: var(--hi); }
@@ -453,34 +454,34 @@ body {
 /* ═══════════════════════════════════════════════════
    REPORT SCREEN
 ═══════════════════════════════════════════════════ */
-.report-filter-tabs { display:flex; gap:6px; padding:16px 20px 0; }
-.report-tab { flex:1; padding:8px 4px; border-radius:var(--r); border:1px solid var(--line); background:var(--card); color:var(--muted); font-size:var(--fs-xs); font-weight:600; cursor:pointer; text-align:center; transition:all .15s; }
-.report-tab.active { background:var(--hi-dim); border-color:var(--hi-bdr); color:var(--hi); }
-.report-hero-card { margin:16px 20px 0; background:var(--card); border:1px solid var(--line); border-radius:var(--r); padding:20px; display:flex; align-items:center; gap:14px; }
-.report-avatar { font-size:2.2rem; line-height:1; flex-shrink:0; }
-.report-name { font-family:'Syne',sans-serif; font-weight:800; font-size:var(--fs-lg); color:var(--ink); letter-spacing:-.02em; }
-.report-date { font-size:var(--fs-xs); color:var(--muted); margin-top:3px; font-family:'DM Mono',monospace; }
-.report-stats-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px; margin:10px 20px 0; }
-.report-stat { background:var(--card); border:1px solid var(--line); border-radius:var(--r); padding:12px 8px; text-align:center; }
-.report-stat-num { font-family:'DM Mono',monospace; font-size:var(--fs-xl); font-weight:500; color:var(--ink); line-height:1; }
-.report-stat-lbl { font-size:var(--fs-xs); color:var(--muted); margin-top:5px; font-weight:600; letter-spacing:.05em; text-transform:uppercase; }
-.report-chart-wrap { margin:16px 20px 0; background:var(--card); border:1px solid var(--line); border-radius:var(--r); padding:16px; }
-.report-chart-title { font-size:var(--fs-xs); font-weight:600; color:var(--muted); letter-spacing:.1em; text-transform:uppercase; margin-bottom:12px; }
-.report-bars { display:flex; align-items:flex-end; gap:4px; height:80px; width:100%; }
-.report-bar-wrap { flex:1; display:flex; flex-direction:column; align-items:center; gap:3px; height:100%; justify-content:flex-end; }
-.report-bar { width:100%; border-radius:3px 3px 0 0; min-height:3px; }
-.report-bar.go { background:var(--go); opacity:.8; }
-.report-bar.mid { background:var(--sub); opacity:.6; }
-.report-bar.low { background:var(--err); opacity:.5; }
-.report-bar-pct { font-family:'DM Mono',monospace; font-size:var(--fs-xs); color:var(--muted); }
-.report-chart-empty { text-align:center; color:var(--ghost); font-size:var(--fs-sm); padding:20px 0; }
-.report-session-list { margin:10px 20px 0; background:var(--card); border:1px solid var(--line); border-radius:var(--r); overflow:hidden; }
-.report-session-row { display:flex; align-items:center; gap:10px; padding:10px 14px; border-bottom:1px solid var(--line); }
-.report-session-row:last-child { border-bottom:none; }
-.report-session-date { font-family:'DM Mono',monospace; font-size:var(--fs-xs); color:var(--muted); flex-shrink:0; width:52px; }
-.report-session-units { font-size:var(--fs-xs); color:var(--sub); flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-.report-session-score { font-family:'DM Mono',monospace; font-size:var(--fs-xs); color:var(--ghost); flex-shrink:0; }
-.report-session-pct { font-family:'DM Mono',monospace; font-size:var(--fs-xs); font-weight:700; flex-shrink:0; width:36px; text-align:right; }
+.report-hero { display:flex; align-items:center; justify-content:space-between; padding:12px 20px 14px; }
+.report-hero-identity { display:flex; align-items:center; gap:10px; }
+.report-avatar { font-size:1.6rem; line-height:1; flex-shrink:0; }
+.report-name { font-family:'Syne',sans-serif; font-weight:800; font-size:var(--fs-md); color:var(--ink); letter-spacing:-.02em; }
+.report-date { font-size:var(--fs-xs); color:var(--muted); margin-top:2px; font-family:'Outfit',sans-serif; font-weight:500; }
+.report-sr-inline { display:flex; gap:8px; flex-shrink:0; align-items:center; }
+.report-sr-pill { font-size:var(--fs-xs); }
+.report-sr-pill strong { font-family:'Outfit',sans-serif; font-weight:600; font-size:var(--fs-sm); }
+
+.report-filter-tabs { display:flex; gap:6px; padding:0 20px 14px; }
+.report-tab { flex:1; padding:6px 4px; border-radius:99px; border:none; background:var(--card); color:var(--muted); font-size:var(--fs-xs); font-weight:600; cursor:pointer; text-align:center; transition:all .15s; }
+.report-tab.active { background:var(--ink); color:var(--bg); }
+.report-tab:active { opacity:.8; }
+
+.report-section { padding:0 20px; }
+.report-col-hdr { display:flex; align-items:center; gap:8px; padding:6px 6px; font-weight:600; }
+.report-col-date { font-size:var(--fs-xs); letter-spacing:.06em; text-transform:uppercase; color:var(--muted); width:42px; flex-shrink:0; }
+.report-col-units { font-size:var(--fs-xs); letter-spacing:.06em; text-transform:uppercase; color:var(--muted); flex:1; }
+.report-col-q { font-size:var(--fs-xs); letter-spacing:.06em; text-transform:uppercase; color:var(--muted); flex-shrink:0; }
+.report-col-pct { font-size:var(--fs-xs); letter-spacing:.06em; text-transform:uppercase; color:var(--muted); width:36px; text-align:right; }
+
+.report-row { display:flex; align-items:center; gap:8px; padding:7px 6px; border-radius:var(--r); margin-bottom:2px; }
+.report-row.zebra { background:var(--surface); }
+.report-row-date { font-family:'Outfit',sans-serif; font-weight:500; font-size:var(--fs-xs); color:var(--sub); width:42px; flex-shrink:0; }
+.report-row-units { font-size:var(--fs-xs); color:var(--sub); flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.report-row-q { font-family:'Outfit',sans-serif; font-weight:500; font-size:var(--fs-xs); color:var(--sub); flex-shrink:0; }
+.report-row-pct { font-family:'Outfit',sans-serif; font-weight:600; font-size:var(--fs-sm); width:36px; text-align:right; }
+.report-chart-empty { text-align:center; color:var(--ghost); font-size:var(--fs-xs); padding:20px 0; }
 
 </style>
 </head>
@@ -540,8 +541,8 @@ body {
 <div class="name-overlay hidden" id="weak-overlay" onclick="if(event.target===this)closeWeakModal()">
   <div class="name-card" style="max-height:80vh;display:flex;flex-direction:column;padding:20px 0 0">
     <div style="display:flex;align-items:center;justify-content:space-between;padding:0 20px 16px;border-bottom:1px solid var(--line)">
-      <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:var(--ink)">错词本</div>
-      <button onclick="closeWeakModal()" style="background:none;border:none;color:var(--muted);font-size:1.2rem;cursor:pointer">×</button>
+      <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:var(--fs-lg);color:var(--ink)">错词本</div>
+      <button onclick="closeWeakModal()" style="background:none;border:none;color:var(--muted);font-size:var(--fs-lg);cursor:pointer">×</button>
     </div>
     <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:1px solid var(--line)">
       <div style="display:flex;gap:4px">
@@ -591,8 +592,8 @@ body {
       <div class="hist-top">
         <span class="hist-label">练习记录</span>
         <div style="display:flex;gap:6px">
-          <button id="id-weak-btn" onclick="openWeakModal()" style="font-size:var(--fs-xs); font-weight:600; padding:4px 10px;border-radius:6px;border:1px solid var(--line);background:transparent;color:var(--muted);cursor:pointer;white-space:nowrap;">错词本 0</button>
-          <button onclick="showReport()" style="font-size:var(--fs-xs); font-weight:600;padding:4px 10px;border-radius:6px;border:1px solid var(--line);background:transparent;color:var(--muted);cursor:pointer;white-space:nowrap;">学习记录</button>
+          <button id="id-weak-btn" class="hist-btn" onclick="openWeakModal()">错词本 0</button>
+          <button class="hist-btn" onclick="showReport()">学习记录</button>
         </div>
       </div>
       <div class="bars" id="hist-chart">
@@ -672,11 +673,20 @@ body {
     </nav>
   </header>
   <div class="scroll-body">
-    <div style="padding:20px 20px 0">
-      <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem;letter-spacing:-.02em;color:var(--ink)">学习记录</div>
-      <div style="font-size:var(--fs-xs);color:var(--muted);margin-top:4px">截图发给 Ray老师 ✓</div>
+
+    <!-- Hero: identity + SR inline -->
+    <div class="report-hero">
+      <div class="report-hero-identity">
+        <div class="report-avatar" id="report-avatar"></div>
+        <div>
+          <div class="report-name" id="report-name"></div>
+          <div class="report-date" id="report-date"></div>
+        </div>
+      </div>
+      <div class="report-sr-inline" id="report-sr-inline"></div>
     </div>
 
+    <!-- Filter tabs -->
     <div class="report-filter-tabs">
       <button class="report-tab active" id="rtab-10" onclick="renderReport('10')">近10次</button>
       <button class="report-tab" id="rtab-30" onclick="renderReport('30')">近30天</button>
@@ -684,46 +694,21 @@ body {
       <button class="report-tab" id="rtab-all" onclick="renderReport('all')">全部</button>
     </div>
 
-    <div class="report-hero-card">
-      <div class="report-avatar" id="report-avatar"></div>
-      <div>
-        <div class="report-name" id="report-name"></div>
-        <div class="report-date" id="report-date"></div>
+    <!-- 练习记录 section -->
+    <div class="report-section">
+      <div class="label" style="margin-bottom:10px">练习记录</div>
+      <div id="report-linechart" style="margin-bottom:8px"></div>
+      <div class="report-col-hdr">
+        <span class="report-col-date">日期</span>
+        <span class="report-col-units">单元</span>
+        <span class="report-col-q">题数</span>
+        <span class="report-col-pct">%</span>
       </div>
+      <div id="report-session-list"></div>
+      <div id="report-total-row"></div>
     </div>
 
-    <div class="rlabel" style="margin-top:16px">间隔重复进度（当前）</div>
-    <div class="sr-trio" style="margin:0 20px">
-      <div class="sr-cell"><div class="sr-num sr-new" id="report-sr-new">0</div><div class="sr-lbl">待学习</div></div>
-      <div class="sr-cell"><div class="sr-num sr-young" id="report-sr-young">0</div><div class="sr-lbl">短期记忆</div></div>
-      <div class="sr-cell"><div class="sr-num sr-mat" id="report-sr-mat">0</div><div class="sr-lbl">长期记忆</div></div>
-    </div>
-
-    <div class="rlabel">练习统计</div>
-    <div class="report-stats-row">
-      <div class="report-stat">
-        <div class="report-stat-num" id="report-sessions">0</div>
-        <div class="report-stat-lbl">练习次数</div>
-      </div>
-      <div class="report-stat">
-        <div class="report-stat-num" id="report-avg">0%</div>
-        <div class="report-stat-lbl">平均正确率</div>
-      </div>
-      <div class="report-stat">
-        <div class="report-stat-num" id="report-total-q">0</div>
-        <div class="report-stat-lbl">总答题数</div>
-      </div>
-    </div>
-
-    <div class="report-chart-wrap">
-      <div class="report-chart-title">正确率趋势</div>
-      <div class="report-bars" id="report-chart"></div>
-    </div>
-
-    <div class="rlabel">练习记录</div>
-    <div class="report-session-list" id="report-session-list"></div>
-
-    <div style="height:20px"></div>
+    <div style="height:24px"></div>
   </div>
 </div>
 
@@ -899,20 +884,121 @@ function histAdd(pct,ok,tot,units){
   hist.push({date:today(),pct,ok,tot,units:units||[]});
   histSave();
 }
+
+function buildLineChart(sessions, mini=false){
+  if(!sessions||!sessions.length){
+    return mini
+      ? '<div class="hist-empty">暂无记录，完成第一次练习后显示</div>'
+      : '<div class="report-chart-empty">此时间段内暂无练习记录</div>';
+  }
+  const W=340, H=mini?50:76;
+  const PL=6, PR=6, PT=4, PB=4;
+  const cW=W-PL-PR, cH=H-PT-PB;
+  const n=sessions.length;
+  const minPct=Math.min(...sessions.map(s=>s.pct));
+  const yFloor=mini?0:Math.max(0,Math.floor((minPct-15)/10)*10);
+  const yRange=100-yFloor;
+  const xs=sessions.map((_,i)=>PL+(n===1?cW/2:i*cW/(n-1)));
+  const ys=sessions.map(s=>PT+cH*(1-Math.min(100,Math.max(yFloor,s.pct)-yFloor)/yRange));
+  const pts=xs.map((x,i)=>`${x.toFixed(1)},${ys[i].toFixed(1)}`).join(' ');
+  const areaPts=pts+` ${xs[n-1].toFixed(1)},${(PT+cH).toFixed(1)} ${xs[0].toFixed(1)},${(PT+cH).toFixed(1)}`;
+  const dots=xs.map((x,i)=>{
+    const c=sessions[i].pct>=75?'#2cb56e':sessions[i].pct>=60?'#e8a030':'#DC0000';
+    return `<circle cx="${x.toFixed(1)}" cy="${ys[i].toFixed(1)}" r="${mini?2.5:3}" fill="${c}" stroke="var(--bg)" stroke-width="${mini?1:1.5}"/>`;
+  }).join('');
+
+  const gid=mini?'lc-grad-mini':'lc-grad-full';
+  const gradDef=`<defs><linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#2cb56e" stop-opacity="0.14"/>
+    <stop offset="100%" stop-color="#2cb56e" stop-opacity="0"/>
+  </linearGradient></defs>`;
+
+  if(mini){
+    let miniLabelsHtml='<div style="position:relative;width:100%;height:100%;">';
+    xs.forEach((x,i)=>{
+      const y=ys[i];
+      const c=sessions[i].pct>=75?'var(--go)':sessions[i].pct>=60?'var(--amber)':'var(--err)';
+      const topPct=(y/H*100).toFixed(2);
+      const leftPct=(x/W*100).toFixed(2);
+      const above=y>PT+10;
+      const transform=i===0?'translate(0,calc(-100% - 6px))':i===n-1?'translate(-100%,calc(-100% - 6px))':'translate(-50%,calc(-100% - 6px))';
+      const transformBelow=i===0?'translate(0,10px)':i===n-1?'translate(-100%,10px)':'translate(-50%,10px)';
+      miniLabelsHtml+=`<span style="position:absolute;left:${leftPct}%;top:${topPct}%;transform:${above?transform:transformBelow};font-family:'Outfit',sans-serif;font-weight:600;font-size:var(--fs-xs);color:${c};line-height:1;white-space:nowrap;">${sessions[i].pct}%</span>`;
+    });
+    miniLabelsHtml+='</div>';
+    return `<div style="position:relative;">
+      <svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;">
+        ${gradDef}
+        <polygon points="${areaPts}" fill="url(#${gid})"/>
+        <polyline points="${pts}" fill="none" stroke="#2cb56e" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+        ${dots}
+      </svg>
+      <div style="position:absolute;inset:0;pointer-events:none;">${miniLabelsHtml}</div>
+    </div>`;
+  }
+
+  const guides=[yFloor, Math.round(yFloor+(100-yFloor)/2), 100];
+  let guideLines='';
+  guides.forEach(pct=>{
+    const y=(PT+cH*(1-(pct-yFloor)/yRange)).toFixed(1);
+    guideLines+=`<line x1="0" y1="${y}" x2="${W}" y2="${y}" stroke="currentColor" stroke-opacity="0.07" stroke-width="1"/>`;
+  });
+
+  let dotLabelsHtml='<div style="position:relative;width:100%;height:100%;">';
+  xs.forEach((x,i)=>{
+    const y=ys[i];
+    const c=sessions[i].pct>=75?'var(--go)':sessions[i].pct>=60?'var(--amber)':'var(--err)';
+    const topPct=(y/H*100).toFixed(2);
+    const leftPct=(x/W*100).toFixed(2);
+    const above=y>PT+10;
+    const transform=i===0?'translate(0,calc(-100% - 6px))':i===n-1?'translate(-100%,calc(-100% - 6px))':'translate(-50%,calc(-100% - 6px))';
+    const transformBelow=i===0?'translate(0,10px)':i===n-1?'translate(-100%,10px)':'translate(-50%,10px)';
+    dotLabelsHtml+=`<span style="position:absolute;left:${leftPct}%;top:${topPct}%;transform:${above?transform:transformBelow};font-family:'Outfit',sans-serif;font-weight:600;font-size:var(--fs-xs);color:${c};line-height:1;white-space:nowrap;">${sessions[i].pct}%</span>`;
+  });
+  dotLabelsHtml+='</div>';
+
+  const li=n<=3?sessions.map((_,i)=>i):[0,Math.floor((n-1)/2),n-1];
+  let dateRow='<div style="position:relative;height:16px;margin-top:2px;">';
+  li.forEach((idx,pos)=>{
+    const transform=pos===0?'translateX(0)':pos===li.length-1?'translateX(-100%)':'translateX(-50%)';
+    const leftPct=((xs[idx])/cW*100).toFixed(2);
+    dateRow+=`<span style="position:absolute;left:${leftPct}%;transform:${transform};font-family:'Outfit',sans-serif;font-weight:600;font-size:var(--fs-xs);color:var(--muted);white-space:nowrap;">${sessions[idx].date.slice(5)}</span>`;
+  });
+  dateRow+='</div>';
+
+  return `<div>
+    <div style="position:relative;">
+      <svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;">
+        ${gradDef}
+        ${guideLines}
+        <polygon points="${areaPts}" fill="url(#${gid})"/>
+        <polyline points="${pts}" fill="none" stroke="#2cb56e" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+        ${dots}
+      </svg>
+      <div style="position:absolute;inset:0;pointer-events:none;">${dotLabelsHtml}</div>
+    </div>
+    ${dateRow}
+  </div>`;
+}
+
+function summarizeUnits(sessions){
+  const all=[...new Set(sessions.flatMap(s=>s.units||[]))].sort();
+  if(!all.length) return '—';
+  const nums=all.map(u=>parseInt(u.replace('Unit ','')));
+  const isConsec=nums.length>2&&nums.every((n,i)=>i===0||n===nums[i-1]+1);
+  return isConsec?`Unit ${nums[0]}–${nums[nums.length-1]}`:all.join(' · ');
+}
+
 function histRender(){
   const n=hist.length;
   const chart=document.getElementById('hist-chart');
   const avgLine=document.getElementById('hist-avg-line');
-  if(!n){ chart.innerHTML='<div class="hist-empty">暂无记录，完成第一次练习后显示</div>'; avgLine.style.display='none'; return; }
-  document.getElementById('hist-total').textContent=n;
+  if(!n){ chart.innerHTML=buildLineChart([]); avgLine.style.display='none'; return; }
   const shown=hist.slice(-15);
   const avg=Math.round(shown.reduce((a,s)=>a+s.pct,0)/shown.length);
-  chart.innerHTML=shown.map(s=>{
-    const h=Math.max(4, s.pct);
-    const colClass=s.pct>=80?'go':s.pct>=60?'mid':'low';
-    return `<div class="bar ${colClass}" style="height:${h}%" title="${s.date}: ${s.pct}%"></div>`;
-  }).join('');
-  avgLine.style.display='block';
+  chart.innerHTML=buildLineChart(shown,true);
+  avgLine.style.display='flex';
+  document.getElementById('hist-total').textContent=n;
   document.getElementById('hist-avg-text').textContent=`${avg}%`;
 }
 let sr = {};
@@ -1405,11 +1491,11 @@ function renderIdStrip(){
   document.getElementById('id-name').textContent = id;
   document.getElementById('id-mastered').innerHTML = `
     <div class="id-stats">
-      <span class="id-stat"><strong style="font-family:'DM Mono',monospace;color:var(--amber)">${st.nw}</strong> 待学习</span>
+      <span class="id-stat"><strong style="font-family:'Outfit',sans-serif;font-weight:600;color:var(--amber)">${st.nw}</strong> 待学习</span>
       <span class="id-stat">·</span>
-      <span class="id-stat"><strong style="font-family:'DM Mono',monospace;color:var(--blue)">${st.yo}</strong> 短期</span>
+      <span class="id-stat"><strong style="font-family:'Outfit',sans-serif;font-weight:600;color:var(--blue)">${st.yo}</strong> 短期</span>
       <span class="id-stat">·</span>
-      <span class="id-stat"><strong style="font-family:'DM Mono',monospace;color:var(--go)">${st.ma}</strong> 长期</span>
+      <span class="id-stat"><strong style="font-family:'Outfit',sans-serif;font-weight:600;color:var(--go)">${st.ma}</strong> 长期</span>
     </div>`;
   const weakCount = Object.keys(weakWords).length;
   const weakBtn = document.getElementById('id-weak-btn');
@@ -1950,76 +2036,91 @@ function replaySession(){
 
 // ── REPORT SCREEN ─────────────────────────────────
 function showReport(){
-  const id = localStorage.getItem('student_id');
-  const emoji = localStorage.getItem('student_emoji');
-  document.getElementById('report-avatar').textContent = emoji || '🐾';
-  document.getElementById('report-name').textContent = id || '';
-  document.getElementById('report-date').textContent = '导出时间：' + today();
-  const st = srStats();
-  document.getElementById('report-sr-new').textContent = st.nw;
-  document.getElementById('report-sr-young').textContent = st.yo;
-  document.getElementById('report-sr-mat').textContent = st.ma;
-  ['10','30','week','all'].forEach(t => {
-    document.getElementById(`rtab-${t}`).classList.toggle('active', t === '10');
+  const id=localStorage.getItem('student_id');
+  const emoji=localStorage.getItem('student_emoji');
+  document.getElementById('report-avatar').textContent=emoji||'🐾';
+  document.getElementById('report-name').textContent=id||'';
+  document.getElementById('report-date').textContent='学习报告 · '+today();
+  const st=srStats();
+  document.getElementById('report-sr-inline').innerHTML=
+    `<span class="report-sr-pill" style="color:var(--amber)"><strong>${st.nw}</strong> 待</span>
+     <span class="report-sr-pill" style="color:var(--blue)"><strong>${st.yo}</strong> 短</span>
+     <span class="report-sr-pill" style="color:var(--go)"><strong>${st.ma}</strong> 长</span>`;
+  ['10','30','week','all'].forEach(t=>{
+    document.getElementById(`rtab-${t}`).classList.toggle('active',t==='10');
   });
   renderReport('10');
   show('screen-report');
 }
 
 function getFilteredSessions(filter){
-  if(filter === '10') return hist.slice(-10);
-  if(filter === 'all') return hist;
-  if(filter === '30'){
-    const cutoff = new Date(); cutoff.setDate(cutoff.getDate()-30);
-    const cutStr = cutoff.toISOString().slice(0,10);
-    return hist.filter(s => s.date >= cutStr);
+  if(filter==='10') return hist.slice(-10);
+  if(filter==='all') return hist;
+  if(filter==='30'){
+    const cutoff=new Date(new Date().getTime()-30*24*60*60*1000);
+    const cutStr=toBeijingDateString(cutoff);
+    return hist.filter(s=>s.date>=cutStr);
   }
-  if(filter === 'week'){
-    return hist.filter(s => s.date >= getMonday());
-  }
+  if(filter==='week') return hist.filter(s=>s.date>=getMonday());
   return hist;
 }
 
 function renderReport(filter){
-  ['10','30','week','all'].forEach(t => {
-    document.getElementById(`rtab-${t}`).classList.toggle('active', t === filter);
+  ['10','30','week','all'].forEach(t=>{
+    document.getElementById(`rtab-${t}`).classList.toggle('active',t===filter);
   });
-  const sessions = getFilteredSessions(filter);
-  const count = sessions.length;
-  const avg = count > 0 ? Math.round(sessions.reduce((a,s) => a+s.pct, 0) / count) : 0;
-  const totalQ = sessions.reduce((a,s) => a+(s.tot||0), 0);
-  document.getElementById('report-sessions').textContent = count;
-  document.getElementById('report-avg').textContent = avg + '%';
-  document.getElementById('report-total-q').textContent = totalQ;
+  const sessions=getFilteredSessions(filter);
+  const count=sessions.length;
 
-  const chartEl = document.getElementById('report-chart');
+  // Line chart
+  document.getElementById('report-linechart').innerHTML=buildLineChart(sessions,false);
+
+  // Session list
+  const listEl=document.getElementById('report-session-list');
+  const totalEl=document.getElementById('report-total-row');
   if(!count){
-    chartEl.innerHTML = '<div class="report-chart-empty">此时间段内暂无练习记录</div>';
-  } else {
-    chartEl.innerHTML = sessions.slice(-20).map(s => {
-      const cls = s.pct>=80?'go':s.pct>=60?'mid':'low';
-      return `<div class="report-bar-wrap">
-        <div class="report-bar-pct">${s.pct}%</div>
-        <div class="report-bar ${cls}" style="height:${Math.max(4,s.pct)}%"></div>
-      </div>`;
-    }).join('');
+    listEl.innerHTML='<div class="report-chart-empty">此时间段内暂无练习记录</div>';
+    totalEl.innerHTML='';
+    return;
   }
 
-  const listEl = document.getElementById('report-session-list');
-  if(!count){
-    listEl.innerHTML = '<div class="wempty">暂无记录</div>';
-  } else {
-    listEl.innerHTML = [...sessions].reverse().map(s => {
-      const pctColor = s.pct>=80?'var(--go)':s.pct>=60?'var(--sub)':'var(--err)';
-      const unitsStr = s.units&&s.units.length>0 ? s.units.join(' · ') : '—';
-      return `<div class="report-session-row">
-        <span class="report-session-date">${s.date.slice(5)}</span>
-        <span class="report-session-units">${esc(unitsStr)}</span>
-        <span class="report-session-score" style="color:var(--sub)">${s.ok||0}/${s.tot||0}</span>
-        <span class="report-session-pct" style="color:${pctColor}">${s.pct}%</span>
-      </div>`;
-    }).join('');
-  }
+  listEl.innerHTML=[...sessions].reverse().map((s,i)=>{
+    const pctColor=s.pct>=80?'var(--go)':s.pct>=60?'var(--amber)':'var(--err)';
+    const unitsStr=s.units&&s.units.length>0?s.units.join(' · '):'—';
+    const zebra=i%2===0?'zebra':'';
+    return `<div class="report-row ${zebra}">
+      <span class="report-row-date">${s.date.slice(5)}</span>
+      <span class="report-row-units">${esc(unitsStr)}</span>
+      <span class="report-row-q">${s.ok||0}/${s.tot||0}</span>
+      <span class="report-row-pct" style="color:${pctColor}">${s.pct}%</span>
+    </div>`;
+  }).join('');
+
+  // Total row
+  const days=new Set(sessions.map(s=>s.date)).size;
+  const totalQ=sessions.reduce((a,s)=>a+(s.tot||0),0);
+  const totalOk=sessions.reduce((a,s)=>a+(s.ok||0),0);
+  const avg=Math.round(sessions.reduce((a,s)=>a+s.pct,0)/count);
+  const avgColor=avg>=80?'var(--go)':avg>=60?'var(--amber)':'var(--err)';
+  const unitsSum=summarizeUnits(sessions);
+  totalEl.innerHTML=`<div style="display:flex;gap:6px;padding:8px 0;margin-top:6px;border-top:0.5px solid rgba(44,181,110,0.3);">
+    <div style="background:rgba(44,181,110,0.1);border-radius:var(--r);padding:6px 10px;text-align:center;flex:1;">
+      <div style="font-size:var(--fs-md);font-weight:600;color:var(--go);">${days}</div>
+      <div style="font-size:var(--fs-xs);color:rgba(44,181,110,0.7);margin-top:1px;">天</div>
+    </div>
+    <div style="background:rgba(44,181,110,0.1);border-radius:var(--r);padding:6px 10px;text-align:center;flex:2;">
+      <div style="font-size:var(--fs-sm);font-weight:500;color:var(--go);">${esc(unitsSum)}</div>
+      <div style="font-size:var(--fs-xs);color:rgba(44,181,110,0.7);margin-top:1px;">涵盖单元</div>
+    </div>
+    <div style="background:rgba(44,181,110,0.1);border-radius:var(--r);padding:6px 10px;text-align:center;flex:1;">
+      <div style="font-size:var(--fs-md);font-weight:600;color:var(--go);">${totalOk}</div>
+      <div style="font-size:var(--fs-xs);color:rgba(44,181,110,0.7);margin-top:1px;">答对</div>
+    </div>
+    <div style="background:rgba(44,181,110,0.1);border-radius:var(--r);padding:6px 10px;text-align:center;flex:1;">
+      <div style="font-size:var(--fs-md);font-weight:600;color:${avgColor};">${avg}%</div>
+      <div style="font-size:var(--fs-xs);color:rgba(44,181,110,0.7);margin-top:1px;">平均</div>
+    </div>
+  </div>`;
 }
 
 
